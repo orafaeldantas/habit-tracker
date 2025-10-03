@@ -40,14 +40,14 @@ habit-tracker/
 
 1. Clone este repositório:
    
-  git clone https://github.com/SEU_USUARIO/habit-tracker.git
-  cd habit-tracker
+  git clone https://github.com/SEU_USUARIO/habit-tracker.git <br>
+  cd habit-tracker <br>
 
 3. Crie e ative um ambiente virtual:
 
-  python -m venv venv
-  source venv/bin/activate  # Linux/Mac
-  venv\Scripts\activate     # Windows
+  python -m venv venv <br>
+  source venv/bin/activate  # Linux/Mac <br>
+  venv\Scripts\activate     # Windows<br>
 
 3. Instale dependências:
 
