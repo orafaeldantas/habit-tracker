@@ -33,7 +33,7 @@ habit-tracker/
 
 ## 🏗 Status das Sprints
 
-- **Sprint 1:** ![Sprint 1](![Sprint 1](https://img.shields.io/badge/Sprint%201-Concluída-brightgreen)
+- **Sprint 1:** ![Sprint 1](https://img.shields.io/badge/Sprint%201-Concluída-brightgreen)
 - **Sprint 2:** ![Sprint 2](https://img.shields.io/badge/Sprint%201-Em%20Andamento-yellow)
 - **Sprint 3:** ![Sprint 3](https://img.shields.io/badge/Sprint%203-To%20Do-lightgrey)
 - **Sprint 4:** ![Sprint 4](https://img.shields.io/badge/Sprint%204-To%20Do-lightgrey)
