@@ -39,11 +39,11 @@ habit-tracker/
 📝 Como rodar localmente
 
 1. Clone este repositório:
-
+   
   git clone https://github.com/SEU_USUARIO/habit-tracker.git
   cd habit-tracker
 
-2. Crie e ative um ambiente virtual:
+3. Crie e ative um ambiente virtual:
 
   python -m venv venv
   source venv/bin/activate  # Linux/Mac
