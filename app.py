@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from flask import g
-from database import get_db
+from database import get_db, insert_db
 
 
 app = Flask(__name__)
@@ -34,7 +34,8 @@ def hello():
 def register_user():
     if request.method == 'POST':
         try:
-            return insert_db(request.form['name'], request.form['email'], request.form['password'])
+            print(request.form['name'])
+            return insert_db(request.form['name'], request.form['email'], request.form['psw'])
         except:
             print('Erro ao inserir dados no banco!')
     return render_template('register.html')
