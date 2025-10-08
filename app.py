@@ -30,7 +30,7 @@ def hello():
         print(f'Erro ao acessar o banco: {e}')
         return 'Erro ao acessar o banco de dados.'
     
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register_user():
     content = request.json()
 
