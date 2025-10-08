@@ -3,17 +3,28 @@ from database import get_db
 
 app = Flask(__name__)
 
+# Close db - More security
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 
 @app.route('/')
 def hello():
-    cur = get_db().cursor()
-    cur.execute("SELECT * FROM users WHERE id = ?", (1,))
-    user_data = cur.fetchone()
-    print(f'teste {user_data}')
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM users WHERE id = ?", (1,))
+            user_data = cur.fetchone()
 
-    
-    return 'Hello, World!'
+        print(f'Usuário encontrado: {user_data}')
+        return 'Hello, World!'
+
+    except Exception as e:
+        print(f'Erro ao acessar o banco: {e}')
+        return 'Erro ao acessar o banco de dados.'
 
 if __name__ == '__main__':
     app.run(debug=True)
