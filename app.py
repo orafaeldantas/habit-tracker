@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import g
 from database import get_db
 
 app = Flask(__name__)
