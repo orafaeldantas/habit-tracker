@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask import g
 from database import get_db
 
@@ -18,8 +18,8 @@ def hello():
     try:
         with get_db() as conn:
             cur = conn.cursor()
-            cur.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", ('teste', 'teste@teste.com', '123456',))
-            conn.commit()
+            #cur.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", ('teste', 'teste@teste.com', '123456',))
+            #conn.commit()
             cur.execute("SELECT * FROM users WHERE id = ?", (1,))
             user_data = cur.fetchone()
 
@@ -32,9 +32,11 @@ def hello():
     
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
-    content = request.json()
+    ...
+    #content = request.json()
 
-    insert_db(content['name'], content['email'], content['password'])
+    #insert_db(content['name'], content['email'], content['password'])
+    return render_template('register.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

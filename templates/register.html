@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+
+    <link rel="stylesheet" type="text/css" href="static/css/register.css">
+    
+</head>
+<body>
+
+    <form action="/register">
+        <div class="container">
+          <h1>Cadastre-se</h1>
+          <p>Preencha este formulário para criar uma conta..</p>
+          <hr>
+      
+          <label for="email"><b>E-mail</b></label>
+          <input type="text" placeholder="Digite o e-mail" name="email" id="email" required>
+      
+          <label for="psw"><b>Senha</b></label>
+          <input type="password" placeholder="Digite a senha" name="psw" id="psw" required>
+      
+          <label for="psw-repeat"><b>Repetir senha</b></label>
+          <input type="password" placeholder="Repetir senha" name="psw-repeat" id="psw-repeat" required>
+          <hr>
+      
+          <p>Ao criar uma conta, você concorda com nossos <a href="#">Termos e Privacidade</a>.</p>
+          <button type="submit" class="registerbtn">Cadastrar</button>
+        </div>
+      
+        <div class="container signin">
+          <p>Já tem uma conta? <a href="#">Entrar</a>.</p>
+        </div>
+      </form> 
+    
+</body>
+</html>
