@@ -32,10 +32,11 @@ def hello():
     
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
-    ...
-    #content = request.json()
-
-    #insert_db(content['name'], content['email'], content['password'])
+    if request.method == 'POST':
+        try:
+            return insert_db(request.form['name'], request.form['email'], request.form['password'])
+        except:
+            print('Erro ao inserir dados no banco!')
     return render_template('register.html')
 
 if __name__ == '__main__':
