@@ -47,6 +47,16 @@ def login_user():
             return 'Usuário não cadastrado!'
     return render_template('login.html')
 
+@app.route('/logout', methods=['GET'])
+def logout_user():
+    if session.pop('email_user', None):
+        return redirect(url_for('login_user'))
+    else:
+        print('Problemas ao sair da sessão!')
+    
+        
+    
+
 if __name__ == '__main__':
     app.run(debug=True)
 
