@@ -1,4 +1,4 @@
-import secrets
+import secrets, logging
 from flask import Flask, g, request, render_template, redirect, url_for, session
 from database import get_db, insert_db, verify_login
 
@@ -7,12 +7,15 @@ from database import get_db, insert_db, verify_login
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(32)
 
+logging.basicConfig(level=logging.INFO)
+
 # Close db - More security
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+        logging.info("Conexão com o banco encerrada.")
 
 
 @app.route('/')
