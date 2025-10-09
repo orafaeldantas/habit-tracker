@@ -1,8 +1,10 @@
-from flask import Flask, g, request, render_template, redirect, url_for
+from flask import Flask, g, request, render_template, redirect, url_for, session
 from database import get_db, insert_db, verify_login
+import secrets
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = secrets.token_hex(32)
 
 # Close db - More security
 @app.teardown_appcontext
@@ -13,21 +15,16 @@ def close_connection(exception):
 
 
 @app.route('/')
-def hello():
-    try:
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM users WHERE id = ?", (1,))
-            user_data = cur.fetchone()
+def index():
+       
+    # Check if the user is logged into the session
+    email_user = session.get('email_user')
 
-        print(f'Usuário encontrado: {user_data}')
-
-        return 'Hello, World!'
-
-    except Exception as e:
-        print(f'Erro ao acessar o banco: {e}')
-        return 'Erro ao acessar o banco de dados.'
+    if email_user:
+        return render_template('index.html')
     
+    return redirect(url_for('login_user'))
+   
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
     if request.method == 'POST':
@@ -43,8 +40,9 @@ def register_user():
 def login_user():
     
     if request.method == 'POST':           
-        if verify_login(request.form['email'], request.form['psw']) == 1:
-            return redirect(url_for('hello'))
+        if verify_login(request.form['email'], request.form['psw']):
+            session['email_user'] = request.form['email']           
+            return redirect(url_for('index'))
         else:
             return 'Usuário não cadastrado!'
     return render_template('login.html')
