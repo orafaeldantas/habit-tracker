@@ -31,14 +31,11 @@ def hello():
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
     if request.method == 'POST':
-        try:
-            insert_db(request.form['name'], request.form['email'], request.form['psw'])
 
+        if insert_db(request.form['name'], request.form['email'], request.form['psw']):
             return redirect(url_for('hello'))
-        
-        except Exception as e:
-            print(f'Erro ao cadastrar: {e}')
-            return "Erro ao cadastrar usuário", 500
+        else:
+            return "Erro ao cadastrar usuário"
         
     return render_template('register.html')
 

@@ -16,10 +16,9 @@ def insert_db(name, email, password):
             cur = conn.cursor()
             cur.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", 
                         (name, email, password,))
-            conn.commit()
 
-        return 'Dados inseridos com sucesso!'
+        return True
 
-    except Exception as e:
-        print(f'Erro ao acessar o banco: {e}')
-        return 'Erro ao acessar o banco de dados.'
+    except sqlite3.Error as e:
+        print(f'Erro SQLite: {e}')
+        return False
