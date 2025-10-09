@@ -1,5 +1,4 @@
-from flask import Flask, request, jsonify, render_template
-from flask import g
+from flask import Flask, g, request, render_template, redirect, url_for
 from database import get_db, insert_db
 
 
@@ -18,12 +17,11 @@ def hello():
     try:
         with get_db() as conn:
             cur = conn.cursor()
-            #cur.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", ('teste', 'teste@teste.com', '123456',))
-            #conn.commit()
             cur.execute("SELECT * FROM users WHERE id = ?", (1,))
             user_data = cur.fetchone()
 
         print(f'Usuário encontrado: {user_data}')
+
         return 'Hello, World!'
 
     except Exception as e:
@@ -34,10 +32,14 @@ def hello():
 def register_user():
     if request.method == 'POST':
         try:
-            print(request.form['name'])
-            return insert_db(request.form['name'], request.form['email'], request.form['psw'])
-        except:
-            print('Erro ao inserir dados no banco!')
+            insert_db(request.form['name'], request.form['email'], request.form['psw'])
+
+            return redirect(url_for('hello'))
+        
+        except Exception as e:
+            print(f'Erro ao cadastrar: {e}')
+            return "Erro ao cadastrar usuário", 500
+        
     return render_template('register.html')
 
 if __name__ == '__main__':
