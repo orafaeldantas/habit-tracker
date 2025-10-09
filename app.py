@@ -1,5 +1,5 @@
 from flask import Flask, g, request, render_template, redirect, url_for
-from database import get_db, insert_db
+from database import get_db, insert_db, verify_login
 
 
 app = Flask(__name__)
@@ -41,7 +41,12 @@ def register_user():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
-    ...
+    
+    if request.method == 'POST':           
+        if verify_login(request.form['email'], request.form['psw']) == 1:
+            return redirect(url_for('hello'))
+        else:
+            return 'Usuário não cadastrado!'
     return render_template('login.html')
 
 if __name__ == '__main__':

@@ -22,3 +22,16 @@ def insert_db(name, email, password):
     except sqlite3.Error as e:
         print(f'Erro SQLite: {e}')
         return False
+    
+def verify_login(email, password):
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT EXISTS(SELECT 1 FROM users WHERE email = ? AND password = ?)", (email, password,))
+            user_exists = cur.fetchone()[0]
+
+            return user_exists
+
+    except sqlite3.Error as e:
+        print(f'Erro SQLite: {e}')
+        return False  
