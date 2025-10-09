@@ -1,11 +1,11 @@
-import secrets, logging
+import secrets, logging, os
 from flask import Flask, g, request, render_template, redirect, url_for, session
 from database import get_db, insert_db, verify_login
 
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = secrets.token_hex(32)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', secrets.token_hex(32))
 
 logging.basicConfig(level=logging.INFO)
 
