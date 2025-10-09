@@ -1,6 +1,7 @@
+import secrets
 from flask import Flask, g, request, render_template, redirect, url_for, session
 from database import get_db, insert_db, verify_login
-import secrets
+
 
 
 app = Flask(__name__)
@@ -30,7 +31,7 @@ def register_user():
     if request.method == 'POST':
 
         if insert_db(request.form['name'], request.form['email'], request.form['psw']):
-            return redirect(url_for('hello'))
+            return redirect(url_for('index'))
         else:
             return "Erro ao cadastrar usuário"
         
@@ -45,18 +46,16 @@ def login_user():
             return redirect(url_for('index'))
         else:
             return 'Usuário não cadastrado!'
+        
     return render_template('login.html')
 
 @app.route('/logout', methods=['GET'])
 def logout_user():
-    if session.pop('email_user', None):
-        return redirect(url_for('login_user'))
-    else:
-        print('Problemas ao sair da sessão!')
+    session.pop('email_user', None):
+    return redirect(url_for('login_user'))
+
     
         
-    
-
 if __name__ == '__main__':
     app.run(debug=True)
 
