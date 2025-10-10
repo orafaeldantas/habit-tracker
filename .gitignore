@@ -1,0 +1,8 @@
+# Virtual environment
+venv/
+__pycache__/
+
+# Local settings
+.env
+*.sqlite3
+habit-tracker.db

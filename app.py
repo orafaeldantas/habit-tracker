@@ -1,13 +1,15 @@
 import secrets, logging, os
 from flask import Flask, g, request, render_template, redirect, url_for, session
-from database import get_db, insert_db, verify_login
+from dotenv import load_dotenv
+from database import insert_db, verify_login
 
-
+load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', secrets.token_hex(32))
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 logging.basicConfig(level=logging.INFO)
+
 
 # Close db - More security
 @app.teardown_appcontext
@@ -54,7 +56,7 @@ def login_user():
 
 @app.route('/logout', methods=['GET'])
 def logout_user():
-    session.pop('email_user', None):
+    session.pop('email_user', None)
     return redirect(url_for('login_user'))
 
     
