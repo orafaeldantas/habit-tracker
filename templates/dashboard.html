@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Habit Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Bem-vindo(a), {{ session['email_user'] }}</h1>
+    <h2>Seus Hábitos</h2>
+
+    {% if habits %}
+      <ul class="habit-list">
+        {% for habit in habits %}
+          <li class="habit-item">
+            <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}
+            <span>Status: {{ '✔ Feito' if habit['status'] else '❌ Pendente' }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Nenhum hábito cadastrado ainda.</p>
+    {% endif %}
+
+    <a href="{{ url_for('add_habit') }}" class="btn">+ Adicionar hábito</a>
+    <a href="{{ url_for('logout_user') }}" class="btn btn-logout">Sair</a>
+  </div>
+</body>
+</html>
