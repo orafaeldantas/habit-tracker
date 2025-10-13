@@ -22,6 +22,24 @@ def create_users_table():
         ''')
         conn.commit()
 
+def create_habits_table():
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS habits (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                title TEXT NOT NULL,
+                description TEXT,
+                date_created TEXT DEFAULT CURRENT_TIMESTAMP,
+                status INTEGER DEFAULT 0,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            )
+        ''')
+
+        conn.commit()
+       
+
 def insert_db_users(name, email, password):
     try:
         with get_db() as conn:
@@ -51,4 +69,5 @@ def verify_login(email, password):
 
 def init_db():
     create_users_table()
+    create_habits_table()
     print('Database initialized successfully!')
