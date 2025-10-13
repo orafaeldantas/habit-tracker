@@ -1,7 +1,7 @@
 import secrets, logging, os
 from flask import Flask, g, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv
-from database import init_db, insert_db_users, verify_login
+from database import init_db, insert_db_users, verify_login, insert_db_habits
 
 load_dotenv()
 
@@ -15,6 +15,7 @@ logging.basicConfig(level=logging.INFO)
 
 with app.app_context():
     init_db()
+    insert_db_habits(1, 'Teste de titulo 2', 'Teste de descrição 2')   
 
 # Close db - More security
 @app.teardown_appcontext

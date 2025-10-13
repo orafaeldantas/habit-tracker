@@ -50,7 +50,20 @@ def insert_db_users(name, email, password):
         return True
 
     except sqlite3.Error as e:
-        print(f'Erro SQLite: {e}')
+        print(f'Error SQLite: {e}')
+        return False
+    
+def insert_db_habits(user_id, title, description):
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("INSERT INTO habits (user_id, title, description) VALUES (?, ?, ?)",
+                        (user_id, title, description,))
+            
+            return True
+        
+    except sqlite3.Error as e:
+        print(f'Error SQLite: {e}')
         return False
     
 def verify_login(email, password):
