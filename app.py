@@ -1,15 +1,20 @@
 import secrets, logging, os
 from flask import Flask, g, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv
-from database import insert_db, verify_login
+from database import init_db, insert_db_users, verify_login
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config["DATABASE"] = os.path.join(BASE_DIR, "habit-tracker.db")
+
 logging.basicConfig(level=logging.INFO)
 
+with app.app_context():
+    init_db()
 
 # Close db - More security
 @app.teardown_appcontext
@@ -30,18 +35,20 @@ def index():
         return render_template('index.html')
     
     return redirect(url_for('login_user'))
-   
+
+# === REGISTER ===   
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
     if request.method == 'POST':
 
-        if insert_db(request.form['name'], request.form['email'], request.form['psw']):
-            return redirect(url_for('index'))
+        if insert_db_users(request.form['name'], request.form['email'], request.form['psw']):
+            return redirect(url_for('index'))           
         else:
             return "Erro ao cadastrar usuário"
         
     return render_template('register.html')
 
+# === LOGIN ===
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     
@@ -54,6 +61,7 @@ def login_user():
         
     return render_template('login.html')
 
+# === LOGOUT ===
 @app.route('/logout', methods=['GET'])
 def logout_user():
     session.pop('email_user', None)
