@@ -46,7 +46,7 @@ habit-tracker/
 
 1. Clone este repositório:
    
-   git clone https://github.com/SEU_USUARIO/habit-tracker.git <br>
+   git clone https://github.com/orafaeldantas/habit-tracker.git <br>
    cd habit-tracker <br>
 
 3. Crie e ative um ambiente virtual:
