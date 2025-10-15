@@ -64,6 +64,34 @@ def insert_db_habits(user_id, title, description):
         
     except sqlite3.Error as e:
         print(f'Error SQLite: {e}')
+
+        return False
+    
+def get_id_user(user_email):
+    print(user_email)
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT id FROM users WHERE email = ?", (user_email,))
+            result = cur.fetchone()
+
+        return result['id']
+
+    except sqlite3.Error as e:
+        print(f'Error SQLite: {e}')
+        return False
+    
+def get_habits_by_user(user_id):
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT title, description, status FROM habits WHERE user_id = ?", (user_id,)) 
+            result = cur.fetchall()
+        
+        return result
+
+    except sqlite3.Error as e:
+        print(f'Error SQLite: {e}')
         return False
     
 def verify_login(email, password):

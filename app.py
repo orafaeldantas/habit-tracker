@@ -1,7 +1,7 @@
 import secrets, logging, os
 from flask import Flask, g, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv
-from database import init_db, insert_db_users, verify_login, insert_db_habits
+from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, get_id_user
 
 load_dotenv()
 
@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 
 with app.app_context():
     init_db()
-    insert_db_habits(1, 'Teste de titulo 2', 'Teste de descrição 2')   
+    #insert_db_habits(1, 'Teste de titulo 2', 'Teste de descrição 2')   
 
 # Close db - More security
 @app.teardown_appcontext
@@ -27,13 +27,17 @@ def close_connection(exception):
 
 
 @app.route('/')
-def index():
+def dashboard():
        
     # Check if the user is logged into the session
     email_user = session.get('email_user')
 
     if email_user:
-        return render_template('index.html')
+
+        user_id = get_id_user(email_user)
+        habits = get_habits_by_user(user_id)
+
+        return render_template('dashboard.html', habits=habits)
     
     return redirect(url_for('login_user'))
 
@@ -43,7 +47,7 @@ def register_user():
     if request.method == 'POST':
 
         if insert_db_users(request.form['name'], request.form['email'], request.form['psw']):
-            return redirect(url_for('index'))           
+            return redirect(url_for('dashboard'))           
         else:
             return "Erro ao cadastrar usuário"
         
@@ -56,7 +60,7 @@ def login_user():
     if request.method == 'POST':           
         if verify_login(request.form['email'], request.form['psw']):
             session['email_user'] = request.form['email']           
-            return redirect(url_for('index'))
+            return redirect(url_for('dashboard'))
         else:
             return 'Usuário não cadastrado!'
         
