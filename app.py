@@ -44,7 +44,16 @@ def dashboard():
 @app.route('/add_habit', methods=['POST', 'GET'])
 def insert_habit():
     if request.method == 'POST':
-        ...
+
+        user_id = get_id_user(session.get('email_user'))
+
+        title = request.form['title']
+        description = request.form['description']
+
+        insert_db_habits(user_id, title, description)
+
+        return redirect(url_for('dashboard'))
+
     return render_template('add_habit.html')
 
 # === REGISTER ===   
