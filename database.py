@@ -85,10 +85,22 @@ def get_habits_by_user(user_id):
     try:
         with get_db() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT title, description, status FROM habits WHERE user_id = ?", (user_id,)) 
+            cur.execute("SELECT * FROM habits WHERE user_id = ?", (user_id,)) 
             result = cur.fetchall()
         
         return result
+
+    except sqlite3.Error as e:
+        print(f'Error SQLite: {e}')
+        return False
+    
+def update_status_habits_by_id(id, status):
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("UPDATE habits SET status = ? WHERE id = ?", (status, id,)) 
+        
+        return True
 
     except sqlite3.Error as e:
         print(f'Error SQLite: {e}')

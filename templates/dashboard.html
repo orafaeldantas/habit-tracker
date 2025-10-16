@@ -13,11 +13,13 @@
     {% if habits %}
       <ul class="habit-list">
         {% for habit in habits %}
-          <li class="habit-item">
-            <span>[Status: {{ '✔' if habit['status'] else '❌' }}] </span>
-            <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}           
-            <button> Feito </button>
-            <button> Não feito</button>
+          <li class="habit-item">     
+            <form action="{{ url_for('update_status_habit', id=habit['id']) }}" method="post">  
+              <span>[Status: {{ '✔' if habit['status'] else '❌' }}] </span>
+              <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}        
+              <button type="submit" value=1 name="status"> Feito </button>
+              <button type="submit" value=0 name="status"> Não feito</button>
+            </form> 
           </li>
         {% endfor %}
       </ul>

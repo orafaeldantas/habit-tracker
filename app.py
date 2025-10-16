@@ -1,7 +1,7 @@
 import secrets, logging, os
 from flask import Flask, g, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv
-from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, get_id_user
+from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, get_id_user, update_status_habits_by_id
 
 load_dotenv()
 
@@ -56,11 +56,12 @@ def insert_habit():
 
     return render_template('add_habit.html')
 
-app.route('/update_habit/<id>', methods='POST')
-def update_habit():
+@app.route('/update_habit/<int:id>', methods=['POST'])
+def update_status_habit(id):
     if request.method == 'POST':
-        user_id = get_id_user(session.get('email_user'))
-        
+
+        update_status_habits_by_id(id, request.form.get('status'))
+
         return redirect(url_for('dashboard'))
 
 # === REGISTER ===   
