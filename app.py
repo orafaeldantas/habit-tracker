@@ -41,6 +41,12 @@ def dashboard():
     
     return redirect(url_for('login_user'))
 
+@app.route('/add_habit', methods=['POST', 'GET'])
+def insert_habit():
+    if request.method == 'POST':
+        ...
+    return render_template('add_habit.html')
+
 # === REGISTER ===   
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
