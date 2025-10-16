@@ -14,8 +14,10 @@
       <ul class="habit-list">
         {% for habit in habits %}
           <li class="habit-item">
-            <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}
-            <span>Status: {{ '✔ Feito' if habit['status'] else '❌ Pendente' }}</span>
+            <span>[Status: {{ '✔' if habit['status'] else '❌' }}] </span>
+            <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}           
+            <button> Feito </button>
+            <button> Não feito</button>
           </li>
         {% endfor %}
       </ul>

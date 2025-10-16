@@ -56,6 +56,13 @@ def insert_habit():
 
     return render_template('add_habit.html')
 
+app.route('/update_habit/<id>', methods='POST')
+def update_habit():
+    if request.method == 'POST':
+        user_id = get_id_user(session.get('email_user'))
+        
+        return redirect(url_for('dashboard'))
+
 # === REGISTER ===   
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
