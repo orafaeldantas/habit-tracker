@@ -1,4 +1,4 @@
-import secrets, logging, os
+import secrets, logging, os, functools
 from flask import Flask, g, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv
 from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, get_id_user, update_status_habits_by_id
@@ -15,7 +15,17 @@ logging.basicConfig(level=logging.INFO)
 
 with app.app_context():
     init_db()
-    #insert_db_habits(1, 'Teste de titulo 2', 'Teste de descrição 2')   
+    #insert_db_habits(1, 'Teste de titulo 2', 'Teste de descrição 2')
+
+
+def login_required(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if not session.get('email_user'):
+            return redirect(url_for('login_user'))
+        return func(*args, **kwargs)
+                  
+    return wrapper
 
 # Close db - More security
 @app.teardown_appcontext
@@ -27,19 +37,17 @@ def close_connection(exception):
 
 
 @app.route('/')
+@login_required
 def dashboard():
        
-    # Check if the user is logged into the session
     email_user = session.get('email_user')
-
-    if email_user:
-
-        user_id = get_id_user(email_user)
-        habits = get_habits_by_user(user_id)
-
-        return render_template('dashboard.html', habits=habits)
     
-    return redirect(url_for('login_user'))
+    user_id = get_id_user(email_user)
+    habits = get_habits_by_user(user_id)
+
+    return render_template('dashboard.html', habits=habits)
+    
+   
 
 @app.route('/add_habit', methods=['POST', 'GET'])
 def insert_habit():
