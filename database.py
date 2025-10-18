@@ -106,12 +106,12 @@ def update_status_habits_by_id(id, status):
         print(f'Error SQLite: {e}')
         return False
     
-def verify_login(email, password):
+def verify_login(email):
     try:
         with get_db() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT EXISTS(SELECT 1 FROM users WHERE email = ? AND password = ?)", (email, password,))
-            user_exists = cur.fetchone()[0]
+            cur.execute("SELECT id, password FROM users WHERE email = ?", (email,))
+            user_exists = cur.fetchone()
 
             return user_exists
 

@@ -21,7 +21,7 @@ with app.app_context():
 def login_required(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        if not session.get('email_user'):
+        if not session.get('id_user'):
             return redirect(url_for('login_user'))
         return func(*args, **kwargs)
                   
@@ -50,6 +50,7 @@ def dashboard():
    
 
 @app.route('/add_habit', methods=['POST', 'GET'])
+@login_required
 def insert_habit():
     if request.method == 'POST':
 
@@ -64,7 +65,9 @@ def insert_habit():
 
     return render_template('add_habit.html')
 
+
 @app.route('/update_habit/<int:id>', methods=['POST'])
+@login_required
 def update_status_habit(id):
     if request.method == 'POST':
 
@@ -88,9 +91,12 @@ def register_user():
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     
-    if request.method == 'POST':           
-        if verify_login(request.form['email'], request.form['psw']):
-            session['email_user'] = request.form['email']           
+    if request.method == 'POST': 
+        user_data = verify_login(request.form['email']) 
+
+        if user_data and user_data['password'] == request.form['psw']:
+            session['email_user'] = request.form['email']
+            session['id_user'] = user_data['id']         
             return redirect(url_for('dashboard'))
         else:
             return 'Usuário não cadastrado!'
@@ -98,9 +104,10 @@ def login_user():
     return render_template('login.html')
 
 # === LOGOUT ===
+@login_required
 @app.route('/logout', methods=['GET'])
 def logout_user():
-    session.pop('email_user', None)
+    session.pop('id', None)
     return redirect(url_for('login_user'))
 
     
