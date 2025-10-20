@@ -86,7 +86,8 @@ def update_status_habits_by_id(id, status):
         with get_db() as conn:
             cur = conn.cursor()
             cur.execute("UPDATE habits SET status = ? WHERE id = ?", (status, id,)) 
-        
+            conn.commit()
+            
         return True
 
     except sqlite3.Error as e:
