@@ -59,10 +59,14 @@ def insert_habit():
         title = request.form['title']
         description = request.form['description']
 
-        insert_db_habits(user_id, title, description)
+        if title is not "" and insert_db_habits(user_id, title, description):
 
-        return redirect(url_for('dashboard'))
-
+            flash('Hábito adicionado com sucesso!')
+            return redirect(url_for('dashboard'))
+        
+        flash('Erro ao adicionar hábito!', 'error')
+        return redirect(url_for('insert_habit'))
+    
     return render_template('add_habit.html')
 
 

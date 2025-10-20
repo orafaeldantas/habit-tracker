@@ -15,8 +15,17 @@
             <label for="description">Descrição (opcional):</label><br>
             <input type="text" id="description" name="description">
             <br>
-            <button type="submit">Adicionar</button>
-        </form> 
+            <button type="submit">Adicionar</button>            
+        </form>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %} 
     </div>
 
 </body>
