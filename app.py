@@ -43,7 +43,7 @@ def dashboard():
        
     email_user = session.get('email_user')
     
-    user_id = get_id_user(email_user)
+    user_id = session['id_user']
     habits = get_habits_by_user(user_id)
 
     return render_template('dashboard.html', habits=habits)
@@ -55,7 +55,7 @@ def dashboard():
 def insert_habit():
     if request.method == 'POST':
 
-        user_id = get_id_user(session.get('email_user'))
+        user_id = session['id_user']
 
         title = request.form['title']
         description = request.form['description']
