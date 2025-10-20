@@ -21,7 +21,8 @@ with app.app_context():
 def login_required(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        if not session.get('id_user'):
+        if 'id_user' not in session:
+            flash ('É necessário estar logado para acessar a página!')
             return redirect(url_for('login_user'))
         return func(*args, **kwargs)
                   
@@ -59,7 +60,7 @@ def insert_habit():
         title = request.form['title']
         description = request.form['description']
 
-        if title is not "" and insert_db_habits(user_id, title, description):
+        if title and insert_db_habits(user_id, title, description):
 
             flash('Hábito adicionado com sucesso!')
             return redirect(url_for('dashboard'))
@@ -111,7 +112,7 @@ def login_user():
 @login_required
 @app.route('/logout', methods=['GET'])
 def logout_user():
-    session.pop('id', None)
+    session.pop('id_user', None)
     return redirect(url_for('login_user'))
 
     
