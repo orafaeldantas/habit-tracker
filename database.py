@@ -67,20 +67,7 @@ def insert_db_habits(user_id, title, description):
 
         return False
     
-def get_id_user(user_email):
-    print(user_email)
-    try:
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT id FROM users WHERE email = ?", (user_email,))
-            result = cur.fetchone()
 
-        return result['id']
-
-    except sqlite3.Error as e:
-        print(f'Error SQLite: {e}')
-        return False
-    
 def get_habits_by_user(user_id):
     try:
         with get_db() as conn:

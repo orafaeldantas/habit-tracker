@@ -1,7 +1,7 @@
 import secrets, logging, os, functools
 from flask import Flask, g, request, render_template, redirect, url_for, session, flash
 from dotenv import load_dotenv
-from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, get_id_user, update_status_habits_by_id
+from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, update_status_habits_by_id
 
 load_dotenv()
 
