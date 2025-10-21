@@ -1,6 +1,7 @@
 import secrets, logging, os, functools
 from flask import Flask, g, request, render_template, redirect, url_for, session, flash
 from dotenv import load_dotenv
+from werkzeug.security import generate_password_hash, check_password_hash
 from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, update_status_habits_by_id
 
 load_dotenv()
@@ -17,7 +18,7 @@ with app.app_context():
     init_db()
     #insert_db_habits(1, 'Teste de titulo 2', 'Teste de descrição 2')
 
-
+# Check route login
 def login_required(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -84,8 +85,8 @@ def update_status_habit(id):
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
     if request.method == 'POST':
-
-        if insert_db_users(request.form['name'], request.form['email'], request.form['psw']):
+        password = generate_password_hash(request.form['psw'])
+        if insert_db_users(request.form['name'], request.form['email'], password):
             return redirect(url_for('dashboard'))           
         else:
             return "Erro ao cadastrar usuário"
@@ -98,8 +99,9 @@ def login_user():
     
     if request.method == 'POST': 
         user_data = verify_login(request.form['email']) 
-
-        if user_data and user_data['password'] == request.form['psw']:
+        password_check = check_password_hash(user_data['password'], request.form['psw'])
+        
+        if user_data and password_check:
             session['email_user'] = request.form['email']
             session['id_user'] = user_data['id']         
             return redirect(url_for('dashboard'))
