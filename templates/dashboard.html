@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Habit Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+  {% endwith %}   
+  <div class="container">
+    <h1>Bem-vindo(a), {{ session['email_user'] }}</h1>
+    <h2>Seus Hábitos</h2>
+
+    {% if habits %}
+      <ul class="habit-list">
+        {% for habit in habits %}
+          <li class="habit-item">     
+            <form action="{{ url_for('update_status_habit', id=habit['id']) }}" method="post">  
+              <span>[Status: {{ '✔' if habit['status'] else '❌' }}] </span>
+              <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}        
+              <button type="submit" value=1 name="status"> Feito </button>
+              <button type="submit" value=0 name="status"> Não feito</button>
+            </form> 
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Nenhum hábito cadastrado ainda.</p>
+    {% endif %}
+
+    <a href="{{ url_for('insert_habit') }}" class="btn">+ Adicionar hábito</a>
+    <a href="{{ url_for('logout_user') }}" class="btn btn-logout">Sair</a>
+  </div>
+</body>
+</html>
