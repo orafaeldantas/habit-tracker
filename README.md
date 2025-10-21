@@ -35,8 +35,8 @@ habit-tracker/
 
 - **Sprint 1:** ![Sprint 1](https://img.shields.io/badge/Sprint%201-Concluída-brightgreen)
 - **Sprint 2:** ![Sprint 2](https://img.shields.io/badge/Sprint%202-Concluída-brightgreen)
-- **Sprint 3:** ![Sprint 3](https://img.shields.io/badge/Sprint%203-Em%20Andamento-yellow)
-- **Sprint 4:** ![Sprint 4](https://img.shields.io/badge/Sprint%204-To%20Do-lightgrey)
+- **Sprint 3:** ![Sprint 3](https://img.shields.io/badge/Sprint%203-Concluída-brightgreen)
+- **Sprint 4:** ![Sprint 4](https://img.shields.io/badge/Sprint%204-Em%20Andamento-yellow)
 - **Sprint 5:** ![Sprint 5](https://img.shields.io/badge/Sprint%205-To%20Do-lightgrey)
 
 
@@ -69,14 +69,6 @@ habit-tracker/
 
 ---
 
-📌 Próximos passos
-
-- Criar autenticação de usuários (Sprint 2)
-- Implementar cadastro de hábitos
-- Registrar progresso diário
-- Criar dashboard com gráficos
-
----
 
 👨‍💻 Autor
 
