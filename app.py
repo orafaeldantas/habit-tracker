@@ -99,14 +99,14 @@ def login_user():
     
     if request.method == 'POST': 
         user_data = verify_login(request.form['email']) 
-        password_check = check_password_hash(user_data['password'], request.form['psw'])
-        
-        if user_data and password_check:
+
+        if user_data and check_password_hash(user_data['password'], request.form['psw']):
             session['email_user'] = request.form['email']
             session['id_user'] = user_data['id']         
             return redirect(url_for('dashboard'))
         else:
-            return 'Usuário não cadastrado!'
+            flash('Usuário ou senha incorreto!')
+            return redirect(url_for('login_user')) 
         
     return render_template('login.html')
 
