@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
 
+  {% extends "base.html" %}
+  
+  {% block title %}Login{% endblock %}
+
+  {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-</head>
-<body>
+  {% endblock %}
+
+  {% block content %}
+    
     <form action="{{ url_for('login_user') }}" method="post">
-        <div class="container">
+        <div class="containerLogin">
           <label for="email"><b>E-mail</b></label>
           <input type="text" placeholder="Digite o e-mail" name="email" required>
       
@@ -22,19 +23,10 @@
           </label>
         </div>
       
-        <div class="container" style="background-color:#f1f1f1">
+        <div class="containerLogin" style="background-color:#f1f1f1">
           <button type="button" class="cancelbtn">Cancelar</button>
           <span class="psw">Esqueceu a <a href="#">senha?</a></span>
-        </div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-              <ul class=flashes>
-                  {% for category, message in messages %}
-                      <li class="{{ category }}">{{ message }}</li>
-                  {% endfor %}
-              </ul>
-          {% endif %}
-        {% endwith %} 
-      </form> 
-</body>
-</html>
+        </div> 
+    </form> 
+
+  {% endblock %}
