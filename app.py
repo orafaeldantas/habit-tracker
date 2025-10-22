@@ -87,9 +87,11 @@ def register_user():
     if request.method == 'POST':
         password = generate_password_hash(request.form['psw'])
         if insert_db_users(request.form['name'], request.form['email'], password):
+            flash('Cadastro feito com sucesso!')
             return redirect(url_for('dashboard'))           
         else:
-            return "Erro ao cadastrar usuário"
+            flash('Erro ao registrar. Tente novamente mais tarde!')
+            return render_template('register.html')
         
     return render_template('register.html')
 
@@ -102,7 +104,8 @@ def login_user():
 
         if user_data and check_password_hash(user_data['password'], request.form['psw']):
             session['email_user'] = request.form['email']
-            session['id_user'] = user_data['id']         
+            session['id_user'] = user_data['id']
+            flash('Login feito com sucesso!')         
             return redirect(url_for('dashboard'))
         else:
             flash('Usuário ou senha incorreto!')
@@ -115,6 +118,7 @@ def login_user():
 @app.route('/logout', methods=['GET'])
 def logout_user():
     session.pop('id_user', None)
+    flash('Logout feito! Já estamos com saudades. ;)')
     return redirect(url_for('login_user'))
 
     
