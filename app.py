@@ -23,7 +23,7 @@ def login_required(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         if 'id_user' not in session:
-            flash ('É necessário estar logado para acessar a página!')
+            flash ('É necessário estar logado para acessar a página!', 'error')
             return redirect(url_for('login_user'))
         return func(*args, **kwargs)
                   
@@ -108,7 +108,7 @@ def login_user():
             flash('Login feito com sucesso!')         
             return redirect(url_for('dashboard'))
         else:
-            flash('Usuário ou senha incorreto!')
+            flash('Usuário ou senha incorreto!', 'error')
             return redirect(url_for('login_user')) 
         
     return render_template('login.html')
