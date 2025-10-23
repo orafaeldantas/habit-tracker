@@ -63,7 +63,7 @@ def insert_habit():
 
         if title and insert_db_habits(user_id, title, description):
 
-            flash('Hábito adicionado com sucesso!')
+            flash('Hábito adicionado com sucesso!', 'success')
             return redirect(url_for('dashboard'))
         
         flash('Erro ao adicionar hábito!', 'error')
@@ -87,10 +87,10 @@ def register_user():
     if request.method == 'POST':
         password = generate_password_hash(request.form['psw'])
         if insert_db_users(request.form['name'], request.form['email'], password):
-            flash('Cadastro feito com sucesso!')
+            flash('Cadastro feito com sucesso!', 'success')
             return redirect(url_for('dashboard'))           
         else:
-            flash('Erro ao registrar. Tente novamente mais tarde!')
+            flash('Erro ao registrar. Tente novamente mais tarde!', 'error')
             return render_template('register.html')
         
     return render_template('register.html')
@@ -105,7 +105,8 @@ def login_user():
         if user_data and check_password_hash(user_data['password'], request.form['psw']):
             session['email_user'] = request.form['email']
             session['id_user'] = user_data['id']
-            flash('Login feito com sucesso!')         
+            session['name_user'] = user_data['name']
+            flash('Login feito com sucesso!', 'success')         
             return redirect(url_for('dashboard'))
         else:
             flash('Usuário ou senha incorreto!', 'error')
@@ -118,7 +119,7 @@ def login_user():
 @app.route('/logout', methods=['GET'])
 def logout_user():
     session.pop('id_user', None)
-    flash('Logout feito! Já estamos com saudades. ;)')
+    flash('Logout feito! Já estamos com saudades. ;)', 'success')
     return redirect(url_for('login_user'))
 
     

@@ -98,7 +98,7 @@ def verify_login(email):
     try:
         with get_db() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT id, password FROM users WHERE email = ?", (email,))
+            cur.execute("SELECT id, password, name FROM users WHERE email = ?", (email,))
             user_exists = cur.fetchone()
 
             return user_exists
