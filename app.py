@@ -87,12 +87,26 @@ def update_status_habit(id):
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
     if request.method == 'POST':
-        password = generate_password_hash(request.form['psw'])
-        if insert_db_users(request.form['name'], request.form['email'], password):
-            flash('Cadastro feito com sucesso!', 'success')
-            return redirect(url_for('dashboard'))           
+
+        name = request.form['name']
+        email = request.form['email']
+        psw = request.form['psw']
+        psw_repeat = request.form['psw-repeat']
+
+        if psw != psw_repeat:
+            flash('As senhas digitadas são diferentes!', 'error')
+            return render_template('register.html')
+
+        if name and email and (len(psw) >= 6):
+            password = generate_password_hash(psw)
+            if insert_db_users(name, email, password):
+                flash('Cadastro feito com sucesso!', 'success')
+                return redirect(url_for('dashboard'))           
+            else:
+                flash('Erro ao registrar. Tente novamente mais tarde!', 'error')
+                return render_template('register.html')
         else:
-            flash('Erro ao registrar. Tente novamente mais tarde!', 'error')
+            flash('Preencha todos os campos necessários!', 'error')
             return render_template('register.html')
         
     return render_template('register.html')
