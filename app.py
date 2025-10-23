@@ -6,13 +6,15 @@ from database import init_db, insert_db_users, verify_login, insert_db_habits, g
 
 load_dotenv()
 
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config["DATABASE"] = os.path.join(BASE_DIR, "habit-tracker.db")
 
-logging.basicConfig(level=logging.INFO)
+
 
 with app.app_context():
     init_db()
@@ -35,7 +37,7 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
-        logging.info("Conexão com o banco encerrada.")
+        logging.info("Database connection closed.")
 
 
 @app.route('/')
