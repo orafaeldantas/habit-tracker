@@ -96,8 +96,12 @@ def register_user():
         if psw != psw_repeat:
             flash('As senhas digitadas são diferentes!', 'error')
             return render_template('register.html')
+        
+        if len(psw) < 6:
+            flash('A senha precisa ter no minimos 6 digitos.')
+            return render_template('register.html')
 
-        if name and email and (len(psw) >= 6):
+        if name and email and psw:
             password = generate_password_hash(psw)
             if insert_db_users(name, email, password):
                 flash('Cadastro feito com sucesso!', 'success')
