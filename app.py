@@ -1,4 +1,4 @@
-import secrets, logging, os, functools
+import logging, os, functools
 from flask import Flask, g, request, render_template, redirect, url_for, session, flash
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
