@@ -78,7 +78,7 @@ def insert_habit():
 
 
 # === Update habit status ===
-@app.route('/update_habit/<int:id>', methods=['POST'])
+@app.route('/update_habit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_status_habit(id):
     if request.method == 'POST':
@@ -87,6 +87,7 @@ def update_status_habit(id):
 
         return redirect(url_for('dashboard'))
 
+# === Edit habit ===
 @app.route('/edit_habit/<int:id>', methods=['POST'])
 @login_required
 def edit_habit(id):
