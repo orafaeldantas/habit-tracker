@@ -13,7 +13,7 @@
     {% if habit %}
         <form action="{{ url_for('edit_habit', id=habit['id']) }}" method="post">
             <label for="title">Título:</label><br>
-            <input type="text" id="title" name="title" value="{{ habit['title'] }}" required><br>
+            <input type="text" id="title" name="title" value="{{ habit['title'] }}"><br>
             <label for="description">Descrição (opcional):</label><br>
             <input type="text" id="description" name="description" value="{{ habit['description'] }}">
             <br>
