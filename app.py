@@ -52,7 +52,6 @@ def dashboard():
     return render_template('dashboard.html', habits=habits)
     
    
-
 @app.route('/add_habit', methods=['POST', 'GET'])
 @login_required
 def insert_habit():
@@ -85,6 +84,13 @@ def update_status_habit(id):
     if request.method == 'POST':
 
         update_status_habits_by_id(id, request.form.get('status'))
+
+        return redirect(url_for('dashboard'))
+
+@app.route('/edit_habit/<int:id>', methods=['POST'])
+@login_required
+def edit_habit(id):
+    if request.method == 'POST':
 
         return redirect(url_for('dashboard'))
 
