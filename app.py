@@ -98,7 +98,7 @@ def register_user():
             return render_template('register.html')
         
         if len(psw) < 6:
-            flash('A senha precisa ter no minimos 6 digitos.')
+            flash('A senha precisa ter no mínimo 6 dígitos.', 'error')
             return render_template('register.html')
 
         if name and email and psw:
