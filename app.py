@@ -93,6 +93,11 @@ def register_user():
         psw = request.form['psw']
         psw_repeat = request.form['psw-repeat']
 
+        existing = verify_login(email)
+        if existing:
+            flash('Este e-mail já está cadastrado.', 'error')
+            return render_template('register.html')
+
         if psw != psw_repeat:
             flash('As senhas digitadas são diferentes!', 'error')
             return render_template('register.html')
