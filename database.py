@@ -1,6 +1,7 @@
-import sqlite3
+import sqlite3, logging
 from flask import g, current_app
 
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -33,7 +34,7 @@ def create_habits_table():
                 description TEXT,
                 date_created TEXT DEFAULT CURRENT_TIMESTAMP,
                 status INTEGER DEFAULT 0,
-                FOREIGN KEY (user_id) REFERENCES users(id)
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         ''')
 
@@ -50,7 +51,7 @@ def insert_db_users(name, email, password):
         return True
 
     except sqlite3.Error as e:
-        print(f'Error SQLite: {e}')
+        logging.error(f'Error SQLite: {e}')
         return False
     
 def insert_db_habits(user_id, title, description):
@@ -63,7 +64,7 @@ def insert_db_habits(user_id, title, description):
             return True
         
     except sqlite3.Error as e:
-        print(f'Error SQLite: {e}')
+        logging.error(f'Error SQLite: {e}')
 
         return False
     
@@ -78,7 +79,7 @@ def get_habits_by_user(user_id):
         return result
 
     except sqlite3.Error as e:
-        print(f'Error SQLite: {e}')
+        logging.error(f'Error SQLite: {e}')
         return False
     
 def update_status_habits_by_id(id, status):
@@ -91,24 +92,24 @@ def update_status_habits_by_id(id, status):
         return True
 
     except sqlite3.Error as e:
-        print(f'Error SQLite: {e}')
+        logging.error(f'Error SQLite: {e}')
         return False
     
 def verify_login(email):
     try:
         with get_db() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT id, password FROM users WHERE email = ?", (email,))
+            cur.execute("SELECT id, password, name FROM users WHERE email = ?", (email,))
             user_exists = cur.fetchone()
 
             return user_exists
 
     except sqlite3.Error as e:
-        print(f'Erro SQLite: {e}')
+        logging.error(f'Error SQLite: {e}')
         return False  
 
 
 def init_db():
     create_users_table()
     create_habits_table()
-    print('Database initialized successfully!')
+    logging.info('Database initialized successfully!')
