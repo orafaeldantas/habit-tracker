@@ -78,6 +78,7 @@ def insert_habit():
     return render_template('add_habit.html')
 
 
+# === Update habit status ===
 @app.route('/update_habit/<int:id>', methods=['POST'])
 @login_required
 def update_status_habit(id):
@@ -100,15 +101,15 @@ def register_user():
         existing = verify_login(email)
         if existing:
             flash('Este e-mail já está cadastrado.', 'error')
-            return render_template('register.html')
+            return redirect(url_for('register_user'))
 
         if psw != psw_repeat:
             flash('As senhas digitadas são diferentes!', 'error')
-            return render_template('register.html')
+            return redirect(url_for('register_user'))
         
         if len(psw) < 6:
             flash('A senha precisa ter no mínimo 6 dígitos.', 'error')
-            return render_template('register.html')
+            return redirect(url_for('register_user'))
 
         if name and email and psw:
             password = generate_password_hash(psw)
@@ -117,10 +118,10 @@ def register_user():
                 return redirect(url_for('dashboard'))           
             else:
                 flash('Erro ao registrar. Tente novamente mais tarde!', 'error')
-                return render_template('register.html')
+                return redirect(url_for('register_user'))
         else:
             flash('Preencha todos os campos necessários!', 'error')
-            return render_template('register.html')
+            return redirect(url_for('register_user'))
         
     return render_template('register.html')
 
