@@ -30,6 +30,8 @@ body {
   .habit-item {
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: row;
   }
   
   .habit-item:last-child {

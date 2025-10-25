@@ -58,3 +58,17 @@ button {
 button:hover {
     background-color: #434bb3;
 }
+
+.btn-cancel {
+    display: inline-block;
+    padding: 8px 128px;
+    background-color: #ccc;
+    color: #000;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 5px;
+}
+
+.btn-cancel:hover {
+    background-color: #bbb;
+}

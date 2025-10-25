@@ -17,8 +17,9 @@
             <label for="description">Descrição (opcional):</label><br>
             <input type="text" id="description" name="description" value="{{ habit['description'] }}">
             <br>
-            <button type="submit">Salvar</button>            
+            <button type="submit">Salvar</button>           
         </form>
+        <a href="{{ url_for('dashboard') }}" class="btn-cancel">Cancelar</a>  
     {% else %}
         <p>Hábito não cadastrado encontrado.</p>
     {% endif %}
