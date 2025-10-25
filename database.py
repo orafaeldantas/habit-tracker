@@ -108,6 +108,20 @@ def update_status_habits_by_id(id, status):
         logging.error(f'Error SQLite: {e}')
         return False
     
+def update_habit_by_id(id, title, description):
+    try:
+       
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("UPDATE habits SET title = ?, description = ? WHERE id = ?", (title, description, id,)) 
+            conn.commit()
+            
+        return True
+
+    except sqlite3.Error as e:
+        logging.error(f'Error SQLite: {e}')
+        return False
+    
 def verify_login(email):
     try:
         with get_db() as conn:

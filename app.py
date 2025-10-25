@@ -2,7 +2,7 @@ import logging, os, functools
 from flask import Flask, g, request, render_template, redirect, url_for, session, flash
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit
+from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id
 
 load_dotenv()
 
@@ -93,11 +93,18 @@ def update_status_habit(id):
 @login_required
 def edit_habit(id):
     if request.method == 'POST':
-       
+        title = request.form['title'] 
+        description = request.form['description']
+
+        if not title.strip():
+            habit = get_habit(id)
+            flash('O título do hábito é obrigatório.', 'error')
+            return redirect(url_for('edit_habit', id=habit['id']))
+
+        update_habit_by_id(id, title, description)
         return redirect(url_for('dashboard'))
     
     habit = get_habit(id)
-
     return render_template('edit_habit.html', habit=habit)
 
 # === REGISTER ===   
