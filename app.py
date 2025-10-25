@@ -63,6 +63,10 @@ def insert_habit():
         title = request.form['title']
         description = request.form['description']
 
+        if not title.strip():
+            flash('O título do hábito é obrigatório.', 'error')
+            return redirect(url_for('insert_habit'))
+
         if title and insert_db_habits(user_id, title, description):
 
             flash('Hábito adicionado com sucesso!', 'success')
