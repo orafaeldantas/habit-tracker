@@ -82,6 +82,19 @@ def get_habits_by_user(user_id):
         logging.error(f'Error SQLite: {e}')
         return False
     
+def get_habit(id):
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM habits WHERE id = ?", (id,)) 
+            result = cur.fetchall()
+        
+        return result
+
+    except sqlite3.Error as e:
+        logging.error(f'Error SQLite: {e}')
+        return False
+    
 def update_status_habits_by_id(id, status):
     try:
         with get_db() as conn:

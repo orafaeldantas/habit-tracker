@@ -2,7 +2,7 @@ import logging, os, functools
 from flask import Flask, g, request, render_template, redirect, url_for, session, flash
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, update_status_habits_by_id
+from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit
 
 load_dotenv()
 
@@ -78,7 +78,7 @@ def insert_habit():
 
 
 # === Update habit status ===
-@app.route('/update_habit/<int:id>', methods=['GET', 'POST'])
+@app.route('/update_habit/<int:id>', methods=['POST'])
 @login_required
 def update_status_habit(id):
     if request.method == 'POST':
@@ -86,14 +86,19 @@ def update_status_habit(id):
         update_status_habits_by_id(id, request.form.get('status'))
 
         return redirect(url_for('dashboard'))
+       
 
 # === Edit habit ===
-@app.route('/edit_habit/<int:id>', methods=['POST'])
+@app.route('/edit_habit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_habit(id):
     if request.method == 'POST':
-
+       
         return redirect(url_for('dashboard'))
+    
+    habit_data = get_habit(id)
+
+    return render_template('edit_habit.html', habit_data=habit_data)
 
 # === REGISTER ===   
 @app.route('/register', methods=['GET', 'POST'])
