@@ -34,7 +34,7 @@ def create_habits_table():
                 description TEXT,
                 date_created TEXT DEFAULT CURRENT_TIMESTAMP,
                 status INTEGER DEFAULT 0,
-                FOREIGN KEY (user_id) REFERENCES users(id)
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         ''')
 
