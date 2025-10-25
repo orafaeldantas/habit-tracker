@@ -101,8 +101,12 @@ def edit_habit(id):
             flash('O título do hábito é obrigatório.', 'error')
             return redirect(url_for('edit_habit', id=habit['id']))
 
-        update_habit_by_id(id, title, description)
-        return redirect(url_for('dashboard'))
+        if update_habit_by_id(id, title, description):
+            flash('Hábito atualizado com sucesso.', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Não foi possível atualizar o hábito.', 'error')
+            return redirect(url_for('dashboard'))
     
     habit = get_habit(id)
     return render_template('edit_habit.html', habit=habit)
