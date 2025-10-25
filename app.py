@@ -25,7 +25,7 @@ def login_required(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         if 'id_user' not in session:
-            flash ('É necessário estar logado para acessar a página!', 'error')
+            flash ('É necessário estar logado para acessar a página.', 'error')
             return redirect(url_for('login_user'))
         return func(*args, **kwargs)
                   
@@ -69,10 +69,10 @@ def insert_habit():
 
         if title and insert_db_habits(user_id, title, description):
 
-            flash('Hábito adicionado com sucesso!', 'success')
+            flash('Hábito adicionado com sucesso.', 'success')
             return redirect(url_for('dashboard'))
         
-        flash('Erro ao adicionar hábito!', 'error')
+        flash('Erro ao adicionar hábito.', 'error')
         return redirect(url_for('insert_habit'))
     
     return render_template('add_habit.html')
@@ -104,7 +104,7 @@ def register_user():
             return redirect(url_for('register_user'))
 
         if psw != psw_repeat:
-            flash('As senhas digitadas são diferentes!', 'error')
+            flash('As senhas digitadas são diferentes.', 'error')
             return redirect(url_for('register_user'))
         
         if len(psw) < 6:
@@ -114,13 +114,13 @@ def register_user():
         if name and email and psw:
             password = generate_password_hash(psw)
             if insert_db_users(name, email, password):
-                flash('Cadastro feito com sucesso!', 'success')
+                flash('Cadastro feito com sucesso.', 'success')
                 return redirect(url_for('dashboard'))           
             else:
-                flash('Erro ao registrar. Tente novamente mais tarde!', 'error')
+                flash('Erro ao registrar. Tente novamente mais tarde.', 'error')
                 return redirect(url_for('register_user'))
         else:
-            flash('Preencha todos os campos necessários!', 'error')
+            flash('Preencha todos os campos necessários.', 'error')
             return redirect(url_for('register_user'))
         
     return render_template('register.html')
@@ -136,10 +136,10 @@ def login_user():
             session['email_user'] = request.form['email']
             session['id_user'] = user_data['id']
             session['name_user'] = user_data['name']
-            flash('Login feito com sucesso!', 'success')         
+            flash('Login feito com sucesso.', 'success')         
             return redirect(url_for('dashboard'))
         else:
-            flash('Usuário ou senha incorreto!', 'error')
+            flash('Usuário ou senha incorreto.', 'error')
             return redirect(url_for('login_user')) 
         
     return render_template('login.html')
