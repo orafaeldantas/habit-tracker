@@ -96,9 +96,9 @@ def edit_habit(id):
        
         return redirect(url_for('dashboard'))
     
-    habit_data = get_habit(id)
+    habit = get_habit(id)
 
-    return render_template('edit_habit.html', habit_data=habit_data)
+    return render_template('edit_habit.html', habit=habit)
 
 # === REGISTER ===   
 @app.route('/register', methods=['GET', 'POST'])

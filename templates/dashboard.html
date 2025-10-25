@@ -20,8 +20,11 @@
               <span>[Status: {{ '✔' if habit['status'] else '❌' }}] </span>
               <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}        
               <button type="submit" value=1 name="status"> Feito </button>
-              <button type="submit" value=0 name="status"> Não feito</button>
+              <button type="submit" value=0 name="status"> Não feito</button>              
             </form> 
+            <form action="{{ url_for('edit_habit', id=habit['id']) }}" method="get"> 
+              <button type="submit">Editar</button>
+            </form>
           </li>
         {% endfor %}
       </ul>

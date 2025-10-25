@@ -87,7 +87,7 @@ def get_habit(id):
         with get_db() as conn:
             cur = conn.cursor()
             cur.execute("SELECT * FROM habits WHERE id = ?", (id,)) 
-            result = cur.fetchall()
+            result = cur.fetchone()
         
         return result
 
