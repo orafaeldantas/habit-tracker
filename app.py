@@ -111,6 +111,14 @@ def edit_habit(id):
     habit = get_habit(id)
     return render_template('edit_habit.html', habit=habit)
 
+# === Delete habit ===
+@app.route('/delete_habit/<ind:id>', methods=['POST'])
+@login_required
+def delete_habit(id):
+    if request.method == 'POST':
+        
+        return redirect(url_for('dashboard'))
+
 # === REGISTER ===   
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
