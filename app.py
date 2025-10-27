@@ -2,7 +2,7 @@ import logging, os, functools
 from flask import Flask, g, request, render_template, redirect, url_for, session, flash
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id
+from database import init_db, insert_db_users, verify_login, insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id
 
 load_dotenv()
 
@@ -116,7 +116,7 @@ def edit_habit(id):
 @login_required
 def delete_habit(id):
     if request.method == 'POST':
-        
+
         return redirect(url_for('dashboard'))
 
 # === REGISTER ===   

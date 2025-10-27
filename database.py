@@ -122,6 +122,20 @@ def update_habit_by_id(id, title, description):
         logging.error(f'Error SQLite: {e}')
         return False
     
+def delete_habit_by_id(id):
+    try:
+       
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("DELETE FROM habit WHERE id = ?", (id,)) 
+            conn.commit()
+            
+        return True
+
+    except sqlite3.Error as e:
+        logging.error(f'Error SQLite: {e}')
+        return False
+    
 def verify_login(email):
     try:
         with get_db() as conn:
