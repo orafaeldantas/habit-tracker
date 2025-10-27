@@ -127,7 +127,7 @@ def delete_habit_by_id(id):
        
         with get_db() as conn:
             cur = conn.cursor()
-            cur.execute("DELETE FROM habit WHERE id = ?", (id,)) 
+            cur.execute("DELETE FROM habits WHERE id = ?", (id,)) 
             conn.commit()
             
         return True

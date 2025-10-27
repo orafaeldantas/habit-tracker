@@ -112,12 +112,17 @@ def edit_habit(id):
     return render_template('edit_habit.html', habit=habit)
 
 # === Delete habit ===
-@app.route('/delete_habit/<ind:id>', methods=['POST'])
+@app.route('/delete_habit/<int:id>', methods=['POST'])
 @login_required
 def delete_habit(id):
     if request.method == 'POST':
 
-        return redirect(url_for('dashboard'))
+        if delete_habit_by_id(id):
+            flash('Hábito excluido com sucesso.', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Não foi possível excluir o hábito.', 'error')
+            return redirect(url_for('dashboard'))
 
 # === REGISTER ===   
 @app.route('/register', methods=['GET', 'POST'])
