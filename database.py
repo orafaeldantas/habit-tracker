@@ -10,6 +10,27 @@ def get_db():
         db.row_factory = sqlite3.Row
     return db
 
+def execute_query(query, params=(), fetchone=False, fetchall=False, commit=False):
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute(query, params)
+            print(query)
+            if commit:
+                conn.commit()
+            if fetchone:
+                return cur.fetchone()
+            if fetchall:
+                return cur.fetchall()
+            print('Entrou')
+            return True
+               
+            
+    except sqlite3.Error as e:
+        logging.error(f"SQLite error: {e}")
+        
+        return False
+
 def create_users_table():
     with get_db() as conn:
         cur = conn.cursor()
@@ -42,113 +63,36 @@ def create_habits_table():
        
 
 def insert_db_users(name, email, password):
-    try:
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", 
-                        (name, email, password,))
-
-        return True
-
-    except sqlite3.Error as e:
-        logging.error(f'Error SQLite: {e}')
-        return False
+    return execute_query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, password,))
     
-def insert_db_habits(user_id, title, description):
-    try:
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("INSERT INTO habits (user_id, title, description) VALUES (?, ?, ?)",
-                        (user_id, title, description,))
-            
-            return True
-        
-    except sqlite3.Error as e:
-        logging.error(f'Error SQLite: {e}')
 
-        return False
+def insert_db_habits(user_id, title, description):
+    return execute_query('''INSERT INTO habits (user_id, title, description) VALUES (?, ?, ?)''', (user_id, title, description,))
     
 
 def get_habits_by_user(user_id):
-    try:
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM habits WHERE user_id = ?", (user_id,)) 
-            result = cur.fetchall()
-        
-        return result
+    return execute_query("SELECT * FROM habits WHERE user_id = ?", (user_id,), fetchall=True)
 
-    except sqlite3.Error as e:
-        logging.error(f'Error SQLite: {e}')
-        return False
-    
+
 def get_habit(id):
-    try:
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM habits WHERE id = ?", (id,)) 
-            result = cur.fetchone()
-        
-        return result
+    execute_query("SELECT * FROM habits WHERE id = ?", (id,), fetchone=True)
 
-    except sqlite3.Error as e:
-        logging.error(f'Error SQLite: {e}')
-        return False
     
 def update_status_habits_by_id(id, status):
-    try:
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("UPDATE habits SET status = ? WHERE id = ?", (status, id,)) 
-            conn.commit()
-            
-        return True
+    return execute_query("UPDATE habits SET status = ? WHERE id = ?", (status, id,), commit=True) 
 
-    except sqlite3.Error as e:
-        logging.error(f'Error SQLite: {e}')
-        return False
-    
+
 def update_habit_by_id(id, title, description):
-    try:
-       
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("UPDATE habits SET title = ?, description = ? WHERE id = ?", (title, description, id,)) 
-            conn.commit()
-            
-        return True
+    return execute_query("UPDATE habits SET title = ?, description = ? WHERE id = ?", (title, description, id,), commit=True) 
 
-    except sqlite3.Error as e:
-        logging.error(f'Error SQLite: {e}')
-        return False
     
 def delete_habit_by_id(id):
-    try:
-       
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("DELETE FROM habits WHERE id = ?", (id,)) 
-            conn.commit()
-            
-        return True
+    return execute_query("DELETE FROM habits WHERE id = ?", (id,), commit=True) 
 
-    except sqlite3.Error as e:
-        logging.error(f'Error SQLite: {e}')
-        return False
     
 def verify_login(email):
-    try:
-        with get_db() as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT id, password, name FROM users WHERE email = ?", (email,))
-            user_exists = cur.fetchone()
-
-            return user_exists
-
-    except sqlite3.Error as e:
-        logging.error(f'Error SQLite: {e}')
-        return False  
-
+    return execute_query("SELECT id, password, name FROM users WHERE email = ?", (email,), fetchone=True)
+ 
 
 def init_db():
     create_users_table()

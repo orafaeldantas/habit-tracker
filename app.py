@@ -18,7 +18,6 @@ app.config["DATABASE"] = os.path.join(BASE_DIR, "habit-tracker.db")
 
 with app.app_context():
     init_db()
-    #insert_db_habits(1, 'Teste de titulo 2', 'Teste de descrição 2')
 
 # Check route login
 def login_required(func):
