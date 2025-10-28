@@ -12,6 +12,7 @@
     <h1>Bem-vindo(a), {{ session['name_user'] }}</h1>
     <h2>Seus Hábitos</h2>
 
+
     {% if habits %}
       <ul class="habit-list">
         {% for habit in habits %}
@@ -24,9 +25,18 @@
             </form> 
             <form action="{{ url_for('edit_habit', id=habit['id']) }}" method="get"> 
               <button type="submit">Editar</button>
-            </form>
-            <form action="{{ url_for('delete_habit', id=habit['id']) }}" method="post"> 
-              <button type="submit">Excluir</button>
+            </form>           
+            <form action="{{ url_for('delete_habit', id=habit['id']) }}" method="post">         
+              <button type="button" data-id="{{ habit['id'] }}" class="btn-delete-habit">Excluir</button>
+              <dialog id="deleteModal-{{ habit['id'] }}">
+                <h3>Confirmar ação</h3>
+                <p>Tem certeza que deseja excluir este hábito?</p>
+            
+                <div class="modal-actions">
+                  <button type="submit" class="btn-confirm-delete-habit">Sim</button>
+                  <button type="button" id="cancelModalBtn" class="btn-cancel-delete-habit">Não</button>
+                </div>
+              </dialog>
             </form>
           </li>
         {% endfor %}
@@ -38,4 +48,23 @@
     <a href="{{ url_for('insert_habit') }}" class="btn">+ Adicionar hábito</a>
     <a href="{{ url_for('logout_user') }}" class="btn btn-logout">Sair</a>
   </div>
+
 {% endblock content %}
+
+{% block scripts %}
+  
+  <script>
+    const buttons = document.querySelectorAll(".btn-delete-habit");
+
+    buttons.forEach(btn => {
+      const habitId = btn.dataset.id;
+      const modal = document.getElementById(`deleteModal-${habitId}`);
+      const cancelBtn = modal.querySelector(".btn-cancel-delete-habit");
+
+      btn.addEventListener("click", () => modal.showModal());
+      cancelBtn.addEventListener("click", () => modal.close());
+    });
+  </script>
+{% endblock %}
+
+
