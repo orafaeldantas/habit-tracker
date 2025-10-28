@@ -15,14 +15,12 @@ def execute_query(query, params=(), fetchone=False, fetchall=False, commit=False
         with get_db() as conn:
             cur = conn.cursor()
             cur.execute(query, params)
-            print(query)
             if commit:
                 conn.commit()
             if fetchone:
                 return cur.fetchone()
             if fetchall:
                 return cur.fetchall()
-            print('Entrou')
             return True
                
             
