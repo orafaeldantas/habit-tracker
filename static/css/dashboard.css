@@ -1,5 +1,6 @@
 body {
     font-family: Arial, sans-serif;
+    font-size: 18px;
     background-color: #f4f4f9;
     margin-top: 50px;
     padding: 0;
@@ -32,6 +33,7 @@ body {
     border-bottom: 1px solid #ddd;
     display: flex;
     flex-direction: row;
+    font-size: 20px;
   }
   
   .habit-item:last-child {
@@ -63,15 +65,15 @@ body {
   /* === Modal Delete Habit === */
 
   dialog {
-    border: none;                 /* remove a borda padrão feia do navegador */
-    border-radius: 8px;           /* cantos arredondados */
-    padding: 20px 30px;           /* espaço interno */
-    background-color: #fff;       /* fundo branco */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);  /* sombra leve */
-    text-align: center;           /* centraliza o texto */
-    width: 320px;                 /* largura fixa */
-    max-width: 90%;               /* responsivo em telas menores */
-    animation: fadeIn 0.2s ease;  /* animação de aparição */
+    border: none;                 
+    border-radius: 8px;           
+    padding: 20px 30px;           
+    background-color: #fff;       
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);  
+    text-align: center;           
+    width: 320px;                 
+    max-width: 90%;               
+    animation: fadeIn 0.2s ease;  
   }
   
   dialog::backdrop {
@@ -105,7 +107,6 @@ body {
     transition: background 0.2s ease;
   }
   
-  /* Botão confirmar (vermelho) */
   .modal-actions .btn-confirm {
     background-color: #e74c3c;
     color: #fff;
@@ -115,7 +116,6 @@ body {
     background-color: #c0392b;
   }
   
-  /* Botão cancelar (cinza) */
   .modal-actions .btn-cancel {
     background-color: #ccc;
     color: #000;
@@ -124,9 +124,84 @@ body {
   .modal-actions .btn-cancel:hover {
     background-color: #b3b3b3;
   }
+
+  #habit-item-concluded {
+    background-color: #4e9c5232;
+  }
+
+  #habit-item-active{
+    background-color: #9d7b0030;
+  }
   
   @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
   }
-  
+
+
+/* === Edit and Delete Buttons ===*/
+.btn-edit-habit,
+.btn-delete-habit {
+  background-color: #f0f0f0; /* cor de fundo neutra */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-left: 5px;
+}
+
+.btn-edit-habit::before {
+  content: "✏️";
+}
+
+.btn-delete-habit::before {
+  content: "🗑️";
+}
+
+.btn-edit-habit:hover,
+.btn-delete-habit:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.btn-edit-habit:active,
+.btn-delete-habit:active {
+  transform: scale(0.95);
+}
+
+/*===============*/
+
+/* === Done and Not Done Buttons === */
+.btn-done-habit,
+.btn-not-done-habit {
+  background-color: #f0f0f0; /* mesmo fundo neutro dos outros */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-done-habit::before {
+  content: "✅";
+}
+
+.btn-not-done-habit::before {
+  content: "🔁";
+}
+
+.btn-done-habit:hover,
+.btn-not-done-habit:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.btn-done-habit:active,
+.btn-not-done-habit:active {
+  transform: scale(0.95);
+}
+
+/*===============*/

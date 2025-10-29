@@ -73,7 +73,7 @@ def get_habits_by_user(user_id):
 
 
 def get_habit(id):
-    execute_query("SELECT * FROM habits WHERE id = ?", (id,), fetchone=True)
+    return execute_query("SELECT * FROM habits WHERE id = ?", (id,), fetchone=True)
 
     
 def update_status_habits_by_id(id, status):

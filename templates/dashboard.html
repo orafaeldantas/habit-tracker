@@ -12,22 +12,22 @@
     <h1>Bem-vindo(a), {{ session['name_user'] }}</h1>
     <h2>Seus Hábitos</h2>
 
-
+    <a href="{{ url_for('habits.insert_habit') }}" class="btn">+ Adicionar hábito</a>
     {% if habits %}
       <ul class="habit-list">
         {% for habit in habits %}
-          <li class="habit-item">     
+          <li class="habit-item" id="{{ 'habit-item-concluded' if habit['status'] else 'habit-item-active' }}" >     
             <form action="{{ url_for('habits.update_status_habit', id=habit['id']) }}" method="post">  
-              <span>[Status: {{ '✔' if habit['status'] else '❌' }}] </span>
+              <span> {{ '✔ ' if habit['status'] else '⏰ ' }} </span>
               <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}        
-              <button type="submit" value=1 name="status"> Feito </button>
-              <button type="submit" value=0 name="status"> Não feito</button>              
+              <button type="submit" value=1 name="status" class="btn-done-habit"></button>
+              <button type="submit" value=0 name="status" class="btn-not-done-habit"></button>              
             </form> 
             <form action="{{ url_for('habits.edit_habit', id=habit['id']) }}" method="get"> 
-              <button type="submit">Editar</button>
+              <button type="submit" class="btn-edit-habit"></button>
             </form>           
             <form action="{{ url_for('habits.delete_habit', id=habit['id']) }}" method="post">         
-              <button type="button" data-id="{{ habit['id'] }}" class="btn-delete-habit">Excluir</button>
+              <button type="button" data-id="{{ habit['id'] }}" class="btn-delete-habit"></button>
               <dialog id="deleteModal-{{ habit['id'] }}">
                 <h3>Confirmar ação</h3>
                 <p>Tem certeza que deseja excluir este hábito?</p>
@@ -44,8 +44,7 @@
     {% else %}
       <p>Nenhum hábito cadastrado ainda.</p>
     {% endif %}
-
-    <a href="{{ url_for('habits.insert_habit') }}" class="btn">+ Adicionar hábito</a>
+   
     <a href="{{ url_for('auth.logout_user') }}" class="btn btn-logout">Sair</a>
   </div>
 
