@@ -46,7 +46,7 @@
     {% endif %}
 
     <a href="{{ url_for('insert_habit') }}" class="btn">+ Adicionar hábito</a>
-    <a href="{{ url_for('logout_user') }}" class="btn btn-logout">Sair</a>
+    <a href="{{ url_for('auth.logout_user') }}" class="btn btn-logout">Sair</a>
   </div>
 
 {% endblock content %}

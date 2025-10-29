@@ -9,7 +9,7 @@
 
   {% block content %}
 
-    <form action="{{ url_for('register_user') }}" method="post">
+    <form action="{{ url_for('auth.register_user') }}" method="post">
         <div class="container">
           <h1>Cadastre-se</h1>
           <p>Preencha este formulário para criar uma conta no Habit Tracker</p>
@@ -33,7 +33,7 @@
         </div>
       
         <div class="container signin">
-          <p>Já tem uma conta? <a href="{{ url_for('login_user')}}">Entrar</a>.</p>
+          <p>Já tem uma conta? <a href="{{ url_for('auth.login_user')}}">Entrar</a>.</p>
         </div>
       </form> 
   {% endblock content %}

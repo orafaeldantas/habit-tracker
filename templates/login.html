@@ -9,7 +9,7 @@
 
   {% block content %}
     <div>
-      <form action="{{ url_for('login_user') }}" method="post">
+      <form action="{{ url_for('auth.login_user') }}" method="post">
           <div class="container">
             <label for="email"><b>E-mail</b></label>
             <input type="text" placeholder="Digite o e-mail" name="email" required>
