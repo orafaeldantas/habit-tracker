@@ -129,7 +129,7 @@ habit-tracker/
 - Criação do arquivo `requirements.txt`.
 - Refatoração da estrutura de templates (uso de `base.html`).
 
- ## 🧩 Sprint 5 – CRUD Completo e Refatoração Modular
+ ## 🧩 Sprint 5 — CRUD Completo e Refatoração Modular
 
  - Implementação de edição e exclusão os hábitos cadastrados
  - Implementação do diretório `routes/`
