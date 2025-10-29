@@ -9,6 +9,9 @@
 {% block content %}
 
   <div class="container">
+    <div class="container-logout">
+      <a href="{{ url_for('auth.logout_user') }}" class="btn btn-logout">Sair</a>
+    </div>
     <h1>Bem-vindo(a), {{ session['name_user'] }}</h1>
     <h2>Seus Hábitos</h2>
 
@@ -44,8 +47,7 @@
     {% else %}
       <p>Nenhum hábito cadastrado ainda.</p>
     {% endif %}
-   
-    <a href="{{ url_for('auth.logout_user') }}" class="btn btn-logout">Sair</a>
+      
   </div>
 
 {% endblock content %}
