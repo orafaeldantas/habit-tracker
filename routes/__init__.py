@@ -1,5 +1,6 @@
 
-from .auth import auth_bp, login_user, logout_user, register_user
+from .auth import auth_bp
+from .habits import habits_bp
 
-# define o que será acessível com "from routes import ..."
-__all__ = ["auth_bp", "login_user", "logout_user", "register_user"]
+
+__all__ = ["auth_bp", "habits_bp"]

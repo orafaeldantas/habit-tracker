@@ -32,7 +32,7 @@ def register_user():
             password = generate_password_hash(psw)
             if insert_db_users(name, email, password):
                 flash('Cadastro feito com sucesso.', 'success')
-                return redirect(url_for('dashboard'))           
+                return redirect(url_for('habits.dashboard'))           
             else:
                 flash('Erro ao registrar. Tente novamente mais tarde.', 'error')
                 return redirect(url_for('auth.register_user'))
@@ -54,7 +54,7 @@ def login_user():
             session['id_user'] = user_data['id']
             session['name_user'] = user_data['name']
             flash('Login feito com sucesso.', 'success')         
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('habits.dashboard'))
         else:
             flash('Usuário ou senha incorreto.', 'error')
             return redirect(url_for('auth.login_user')) 

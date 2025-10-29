@@ -11,7 +11,7 @@
 
 <div class="container">
     {% if habit %}
-        <form action="{{ url_for('edit_habit', id=habit['id']) }}" method="post">
+        <form action="{{ url_for('habits.edit_habit', id=habit['id']) }}" method="post">
             <label for="title">Título:</label><br>
             <input type="text" id="title" name="title" value="{{ habit['title'] }}"><br>
             <label for="description">Descrição (opcional):</label><br>
@@ -19,7 +19,7 @@
             <br>
             <button type="submit">Salvar</button>           
         </form>
-        <a href="{{ url_for('dashboard') }}" class="btn-cancel">Cancelar</a>  
+        <a href="{{ url_for('habits.dashboard') }}" class="btn-cancel">Cancelar</a>  
     {% else %}
         <p>Hábito não cadastrado encontrado.</p>
     {% endif %}

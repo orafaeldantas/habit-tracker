@@ -10,7 +10,7 @@
     {% block content %}
 
     <div class="container">
-        <form action="{{ url_for('insert_habit') }}" method="post">
+        <form action="{{ url_for('habits.insert_habit') }}" method="post">
             <label for="title">Título:</label><br>
             <input type="text" id="title" name="title" required><br>
             <label for="description">Descrição (opcional):</label><br>
@@ -18,7 +18,7 @@
             <br>
             <button type="submit">Adicionar</button>            
         </form>
-        <a href="{{ url_for('dashboard') }}" class="btn-cancel">Cancelar</a> 
+        <a href="{{ url_for('habits.dashboard') }}" class="btn-cancel">Cancelar</a> 
     </div>
 
     {% endblock content %}
