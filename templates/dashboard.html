@@ -1,6 +1,6 @@
 {% extends "base.html" %}
     
-{% block title %}dashboard{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block styles %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
@@ -15,7 +15,8 @@
     <h1>Bem-vindo(a), {{ session['name_user'] }}</h1>
     <h2>Seus Hábitos</h2>
 
-    <a href="{{ url_for('habits.insert_habit') }}" class="btn">+ Adicionar hábito</a>
+    <a href="{{ url_for('habits.insert_habit') }}" class="btn btn-add-habit">+ Adicionar hábito</a>
+    <a href="{{ url_for('habits.reports') }}" class="btn btn-reports">Relatório dos Hábitos</a>
     {% if habits %}
       <ul class="habit-list">
         {% for habit in habits %}
@@ -66,6 +67,6 @@
       cancelBtn.addEventListener("click", () => modal.close());
     });
   </script>
-{% endblock %}
+{% endblock scripts %}
 
 

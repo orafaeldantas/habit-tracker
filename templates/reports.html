@@ -1,5 +1,5 @@
 
-
+{% extends "base.html" %}
 
 {% block title %}Reports{% endblock %}
 
@@ -8,7 +8,16 @@
 {% endblock %}
 
 {% block content %}
-    <p>Hello World!</p>
+
+    <div class="container">
+        <div class="container-logout">
+            <a href="{{ url_for('auth.logout_user') }}" class="btn btn-logout">Sair</a>
+        </div>
+
+          <h1>Relatórios</h1>
+          <h2>Seus Hábitos</h2>
+
+    </div>
 {% endblock content %}
 
 {% block scripts %}

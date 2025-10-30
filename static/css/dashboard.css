@@ -45,14 +45,25 @@ body {
     display: inline-block;
     margin: 10px 5px;
     padding: 8px 12px;
-    background-color: #4CAF50;
     color: white;
     text-decoration: none;
     border-radius: 5px;
   }
+
+  .btn-reports {
+    background-color: #1812c2;
+  }
+
+  .btn-add-habit {
+    background-color: #4CAF50;
+  }
   
-  .btn:hover {
+  .btn-add-habit:hover {
     background-color: #45a049;
+  }
+
+  .btn-reports:hover {
+    background-color: #1510a1;
   }
   
   .btn-logout {
@@ -69,6 +80,8 @@ body {
     justify-content: right;
     flex-direction: row;
   }
+
+
 
   /* === Modal Delete Habit === */
 
