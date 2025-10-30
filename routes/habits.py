@@ -24,7 +24,7 @@ def dashboard():
 
     return render_template('dashboard.html', habits=habits)
     
-   
+# === Add habit ===   
 @habits_bp.route('/add_habit', methods=['POST', 'GET'])
 @login_required
 def insert_habit():
@@ -105,3 +105,9 @@ def delete_habit(id):
         else:
             flash('Não foi possível excluir o hábito.', 'error')
             return redirect(url_for('habits.dashboard'))
+        
+# === Reports ===
+@habits_bp.route('/reports', methods=['GET'])
+@login_required
+def reports():
+    return render_template('reports.html')
