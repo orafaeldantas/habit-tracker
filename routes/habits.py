@@ -1,5 +1,5 @@
 import functools
-from flask import Blueprint, g, request, render_template, redirect, url_for, session, flash
+from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id
 
 habits_bp = Blueprint('habits', __name__)
@@ -39,7 +39,7 @@ def insert_habit():
             flash('O título do hábito é obrigatório.', 'error')
             return redirect(url_for('habits.insert_habit'))
 
-        if title and insert_db_habits(user_id, title, description):
+        if insert_db_habits(user_id, title, description):
 
             flash('Hábito adicionado com sucesso.', 'success')
             return redirect(url_for('habits.dashboard'))
@@ -56,6 +56,11 @@ def insert_habit():
 def update_status_habit(id):
     if request.method == 'POST':
 
+        habit = get_habit(id)
+        if habit['user_id'] != session['id_user']:
+            flash('Ação não permitida.', 'error')
+            return redirect(url_for('habits.dashboard'))
+
         update_status_habits_by_id(id, request.form.get('status'))
 
         return redirect(url_for('habits.dashboard'))
@@ -69,8 +74,12 @@ def edit_habit(id):
         title = request.form['title'] 
         description = request.form['description']
 
+        habit = get_habit(id)
+        if habit['user_id'] != session['id_user']:
+            flash('Ação não permitida.', 'error')
+            return redirect(url_for('habits.dashboard'))
+
         if not title.strip():
-            habit = get_habit(id)
             flash('O título do hábito é obrigatório.', 'error')
             return redirect(url_for('habits.edit_habit', id=habit['id']))
 

@@ -6,14 +6,16 @@ from database import insert_db_users, verify_login
 auth_bp = Blueprint('auth', __name__)
 
 # === REGISTER ===   
-@auth_bp.route('/register', endpoint='register', methods=['GET', 'POST'] )
+@auth_bp.route('/register', methods=['GET', 'POST'] )
 def register_user():
     if request.method == 'POST':
 
         name = request.form['name']
-        email = request.form['email']
+        raw_email = request.form['email']
         psw = request.form['psw']
         psw_repeat = request.form['psw-repeat']
+
+        email = raw_email.strip().lower()
 
         existing = verify_login(email)
         if existing:
@@ -31,8 +33,8 @@ def register_user():
         if name and email and psw:
             password = generate_password_hash(psw)
             if insert_db_users(name, email, password):
-                flash('Cadastro feito com sucesso.', 'success')
-                return redirect(url_for('habits.dashboard'))           
+                flash('Cadastro feito com sucesso. Faça login para continuar.', 'success')
+                return redirect(url_for('auth.login_user'))           
             else:
                 flash('Erro ao registrar. Tente novamente mais tarde.', 'error')
                 return redirect(url_for('auth.register_user'))
@@ -65,5 +67,6 @@ def login_user():
 @auth_bp.route('/logout', methods=['GET'] )
 def logout_user():
     session.pop('id_user', None)
+    session.clear()
     flash('Logout feito! Já estamos com saudades. ;)', 'success')
     return redirect(url_for('auth.login_user'))
