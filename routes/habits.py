@@ -1,6 +1,6 @@
 import functools
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
-from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id
+from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, counter_habits_by_user
 
 habits_bp = Blueprint('habits', __name__)
 
@@ -110,4 +110,9 @@ def delete_habit(id):
 @habits_bp.route('/reports', methods=['GET'])
 @login_required
 def reports():
-    return render_template('reports.html')
+
+    completed = counter_habits_by_user(session['id_user'], 1)
+    pending = counter_habits_by_user(session['id_user'], 0)
+
+    habits = {"completed": completed[0], "pending": pending[0]}
+    return render_template('reports.html', habits=habits)

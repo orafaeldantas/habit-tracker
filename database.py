@@ -90,6 +90,13 @@ def delete_habit_by_id(id):
     
 def verify_login(email):
     return execute_query("SELECT id, password, name FROM users WHERE email = ?", (email,), fetchone=True)
+
+def counter_habits_by_user(id, status):
+    if status:
+        return execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ? AND status = 1", (id,), fetchone=True)
+    else:
+        return execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ? AND status = 0", (id,), fetchone=True)
+ 
  
 
 def init_db():
