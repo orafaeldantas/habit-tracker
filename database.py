@@ -75,7 +75,18 @@ def create_habit_logs_table():
         ''')
 
         conn.commit()
-       
+
+def create_daily_reset_table():
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS daily_reset (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                reset_date DATE NOT NULL
+            )
+        ''')
+
+        conn.commit()     
 
 def insert_db_users(name, email, password):
     return execute_query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, password,))
@@ -113,11 +124,18 @@ def counter_habits_by_user(id, status):
         return execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ? AND status = 1", (id,), fetchone=True)
     else:
         return execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ? AND status = 0", (id,), fetchone=True)
+    
+# === Daily Reset Functions ===
+
+def get_last_daily_reset():
+    return execute_query("SELECT reset_date FROM daily_reset ORDER BY id DESC LIMIT ?", (1,), fetchone=True)
  
- 
+def insert_daily_reset(date):
+     return execute_query("INSERT INTO daily_reset (reset_date) VALUES (?)", (date,), commit=True)
 
 def init_db():
     create_users_table()
     create_habits_table()
     create_habit_logs_table()
+    create_daily_reset_table()
     logging.info('Database initialized successfully!')
