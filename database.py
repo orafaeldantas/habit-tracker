@@ -58,6 +58,23 @@ def create_habits_table():
         ''')
 
         conn.commit()
+
+def create_habit_logs_table():
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS habit_logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                habit_id INTEGER NOT NULL,
+                action TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+                FOREIGN KEY (habit_id) REFERENCES habits(id) 
+            )
+        ''')
+
+        conn.commit()
        
 
 def insert_db_users(name, email, password):
@@ -102,4 +119,5 @@ def counter_habits_by_user(id, status):
 def init_db():
     create_users_table()
     create_habits_table()
+    create_habit_logs_table()
     logging.info('Database initialized successfully!')
