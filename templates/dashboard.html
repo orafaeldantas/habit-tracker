@@ -20,28 +20,48 @@
     {% if habits %}
       <ul class="habit-list">
         {% for habit in habits %}
-          <li class="habit-item" id="{{ 'habit-item-concluded' if habit['status'] else 'habit-item-active' }}" >     
-            <form action="{{ url_for('habits.update_status_habit', id=habit['id']) }}" method="post">  
-              <span> {{ '✔ ' if habit['status'] else '⏰ ' }} </span>
-              <strong>{{ habit['title'] }}</strong> — {{ habit['description'] or 'Sem descrição' }}        
-              <button type="submit" value=1 name="status" class="btn-done-habit"></button>
-              <button type="submit" value=0 name="status" class="btn-not-done-habit"></button>              
-            </form> 
-            <form action="{{ url_for('habits.edit_habit', id=habit['id']) }}" method="get"> 
-              <button type="submit" class="btn-edit-habit"></button>
-            </form>           
-            <form action="{{ url_for('habits.delete_habit', id=habit['id']) }}" method="post">         
-              <button type="button" data-id="{{ habit['id'] }}" class="btn-delete-habit"></button>
-              <dialog id="deleteModal-{{ habit['id'] }}">
-                <h3>Confirmar ação</h3>
-                <p>Tem certeza que deseja excluir este hábito?</p>
-            
-                <div class="modal-actions">
-                  <button type="submit" class="btn-confirm-delete-habit">Sim</button>
-                  <button type="button" id="cancelModalBtn" class="btn-cancel-delete-habit">Não</button>
+          <li class="habit-item" id="{{ 'habit-item-concluded' if habit['status'] else 'habit-item-active' }}" > 
+            <div class="container-habit">
+              <div class="icon-status-habit">
+                {% if habit['status'] %}
+                  <img src="{{ url_for('static', filename='icons/completed.svg') }}" width="32" height="32">
+                {% else %}
+                  <img src="{{ url_for('static', filename='icons/pending.svg') }}" width="32" height="32">
+                {% endif %}
+              </div>
+              <div class="text-title-description">
+                <strong class="title">{{ habit['title'] }}</strong><br><span class="description">{{ habit['description'] or 'Sem descrição' }}</span> 
+              </div>                                                                                                      
+            </div> 
+            <div class="container-habit-done">
+              <form class="form-habit-done" action="{{ url_for('habits.update_status_habit', id=habit['id']) }}" method="post">
+                {% if not habit['status'] %}        
+                  <button type="submit" value=1 name="status" class="btn-done-habit"></button> 
+                {% endif %}  
+              </form>
+              
+              <div class="container-habit-options-menu">
+                <button class="btn-habit-options-menu">☰</button>
+                <div class="habit-options-menu">
+                  <form action="{{ url_for('habits.edit_habit', id=habit['id']) }}" method="get"> 
+                    <button type="submit" class="btn-edit-habit"></button>
+                  </form> 
+                  <form action="{{ url_for('habits.delete_habit', id=habit['id']) }}" method="post">         
+                    <button type="button" data-id="{{ habit['id'] }}" class="btn-delete-habit"></button>
+                    <dialog id="deleteModal-{{ habit['id'] }}">
+                      <h3>Confirmar ação</h3>
+                      <p>Tem certeza que deseja excluir este hábito?</p>
+                  
+                      <div class="modal-actions">
+                        <button type="submit" class="btn-confirm-delete-habit">Sim</button>
+                        <button type="button" id="cancelModalBtn" class="btn-cancel-delete-habit">Não</button>
+                      </div>
+                    </dialog>
                 </div>
-              </dialog>
-            </form>
+              </div>
+
+              </form>
+            </div>
           </li>
         {% endfor %}
       </ul>
@@ -56,6 +76,8 @@
 {% block scripts %}
   
   <script>
+
+    // === Modal to Exclude each Habit ===
     const buttons = document.querySelectorAll(".btn-delete-habit");
 
     buttons.forEach(btn => {
@@ -66,6 +88,30 @@
       btn.addEventListener("click", () => modal.showModal());
       cancelBtn.addEventListener("click", () => modal.close());
     });
+
+    // ==============
+
+
+
+    // === Menu Edit and Delete Habit
+    document.querySelectorAll('.btn-habit-options-menu').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const options = btn.nextElementSibling;
+        options.style.display = options.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+
+
+    document.addEventListener('click', (e) => {
+      document.querySelectorAll('.habit-options-menu').forEach(menu => {
+        if (!menu.parentElement.contains(e.target)) {
+          menu.style.display = 'none';
+        }
+      });
+    });
+
+    // ==============
+
   </script>
 {% endblock scripts %}
 

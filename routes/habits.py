@@ -30,8 +30,9 @@ def dashboard():
     if str(today) != str(last_reset['reset_date']):
         insert_daily_reset(today)
         for habit in habits:
-            update_status_habits_by_id(habit['id'], 0)    
-
+            update_status_habits_by_id(habit['id'], 0)   
+        habits = get_habits_by_user(user_id)
+        
     return render_template('dashboard.html', habits=habits)
     
 # === Add habit ===   
