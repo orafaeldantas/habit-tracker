@@ -96,6 +96,7 @@ def edit_habit(id):
             return redirect(url_for('habits.edit_habit', id=habit['id']))
 
         if update_habit_by_id(id, title, description):
+            insert_log(session['id_user'], id, 'updated') # Add 'updated' to the log when a habit is updated
             flash('Hábito atualizado com sucesso.', 'success')
             return redirect(url_for('habits.dashboard'))
         else:
@@ -113,6 +114,7 @@ def delete_habit(id):
 
         if delete_habit_by_id(id):
             flash('Hábito excluido com sucesso.', 'success')
+            insert_log(session['id_user'], id, 'deleted') # Add 'deleted' to the log when a habit is deleted
             return redirect(url_for('habits.dashboard'))
         else:
             flash('Não foi possível excluir o hábito.', 'error')
