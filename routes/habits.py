@@ -52,7 +52,7 @@ def insert_habit():
 
         if insert_db_habits(user_id, title, description):
             habit_id = get_habits_by_user(user_id)
-            insert_log(user_id, habit_id[-1]['id'], 'created')
+            insert_log(user_id, habit_id[-1]['id'], 'created') # Add 'created' to the log when a habit is created
             flash('Hábito adicionado com sucesso.', 'success')
             return redirect(url_for('habits.dashboard'))
         
@@ -74,7 +74,7 @@ def update_status_habit(id):
             return redirect(url_for('habits.dashboard'))
 
         update_status_habits_by_id(id, request.form.get('status'))
-
+        insert_log(session['id_user'], id, 'completed') # Add 'completed' to the log when a habit is completed
         return redirect(url_for('habits.dashboard'))
        
 
