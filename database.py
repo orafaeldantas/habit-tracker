@@ -129,9 +129,21 @@ def counter_habits_by_user(id, status):
 
 def get_last_daily_reset():
     return execute_query("SELECT reset_date FROM daily_reset ORDER BY id DESC LIMIT ?", (1,), fetchone=True)
- 
+
+
 def insert_daily_reset(date):
      return execute_query("INSERT INTO daily_reset (reset_date) VALUES (?)", (date,), commit=True)
+
+# ============================= 
+
+# === Log ===
+# Action -> 'created', 'updated', 'deleted', 'completed'
+
+def insert_log(user_id, habit_id, action):
+    return execute_query('''INSERT INTO habit_logs(user_id, habit_id, action) VALUES (?, ?, ?)''', (user_id, habit_id, action))
+
+# ============================= 
+
 
 def init_db():
     create_users_table()

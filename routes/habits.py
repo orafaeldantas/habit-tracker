@@ -1,7 +1,7 @@
 import functools
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 from datetime import date
-from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, counter_habits_by_user, get_last_daily_reset, insert_daily_reset
+from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, counter_habits_by_user, get_last_daily_reset, insert_daily_reset, insert_log
 
 habits_bp = Blueprint('habits', __name__)
 
@@ -51,7 +51,8 @@ def insert_habit():
             return redirect(url_for('habits.insert_habit'))
 
         if insert_db_habits(user_id, title, description):
-
+            habit_id = get_habits_by_user(user_id)
+            insert_log(user_id, habit_id[-1]['id'], 'created')
             flash('Hábito adicionado com sucesso.', 'success')
             return redirect(url_for('habits.dashboard'))
         
