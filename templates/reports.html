@@ -4,21 +4,28 @@
 {% block title %}Reports{% endblock %}
 
 {% block styles %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reports.css') }}">
 {% endblock %}
 
 {% block content %}
 
     <div class="container">
-        <div class="container-logout">
-            <a href="{{ url_for('auth.logout_user') }}" class="btn btn-logout">Sair</a>
-        </div>
 
-          <h1>Relatórios</h1>
-          <h2>Seus Hábitos</h2>
+      <div class="container-logout">
+        <a href="{{ url_for('auth.logout_user') }}" class="btn btn-logout">Sair</a>
+      </div>
+  
+      <h1>Relatórios</h1>
+      <h2>Seus Hábitos</h2>
 
-          <h3>Hábitos Concluídos: {{habits['completed']}}</h3>
-          <h3>Hábitos Pendentes: {{habits['pending']}}</h3>
+      <div class="container-btn">
+        <a href="#" class="btn btn-seven-days">Últimos 7 dias</a>
+        <a href="#" class="btn btn-fifteen-days">Últimos 15 dias</a>
+        <a href="#" class="btn btn-thirty-days">Últimos 30 dias</a>
+      </div>
+
+      <h3>Hábitos Concluídos: {{habits['completed']}}</h3>
+      <h3>Hábitos Pendentes: {{habits['pending']}}</h3>
 
     </div>
 
