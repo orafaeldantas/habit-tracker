@@ -86,7 +86,22 @@ def create_daily_reset_table():
             )
         ''')
 
-        conn.commit()     
+        conn.commit() 
+
+def create_daily_logs_table():
+    with get_db()as conn:
+        cur = conn.cursor()
+        cur.execute(''' 
+            CREATE TABLE IF NOT EXISTS daily_logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                date DATE NOT NULL,
+                total_habits INTEGER NOT NULL,
+                completed_habits INTEGER NOT NULL,
+                pending_habits INTEGER NOT NULL,
+                completion_rate REAL NOT NULL    
+            ); 
+        ''')    
 
 def insert_db_users(name, email, password):
     return execute_query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, password,))

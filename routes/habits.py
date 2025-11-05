@@ -125,16 +125,11 @@ def delete_habit(id):
 @login_required
 def reports(filter):
 
-    # completed = counter_habits_by_user(session['id_user'], 1)
-    # pending = counter_habits_by_user(session['id_user'], 0)
-
-    # habits = {"completed": completed[0], "pending": pending[0]}
-    # return render_template('reports.html', habits=habits)
     user_id = session['id_user']
     action = 'completed' 
 
     if filter == 1:
-        completed_habits = filter_report(1, user_id, action)
+        completed_habits = filter_report(7, user_id, action)
     elif filter == 2:
         ...
     elif filter == 3:
