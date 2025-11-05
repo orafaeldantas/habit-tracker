@@ -119,12 +119,7 @@ def delete_habit_by_id(id):
 def verify_login(email):
     return execute_query("SELECT id, password, name FROM users WHERE email = ?", (email,), fetchone=True)
 
-def counter_habits_by_user(id, status):
-    if status:
-        return execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ? AND status = 1", (id,), fetchone=True)
-    else:
-        return execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ? AND status = 0", (id,), fetchone=True)
-    
+  
 # === Daily Reset Functions ===
 
 def get_last_daily_reset():
@@ -140,9 +135,16 @@ def insert_daily_reset(date):
 # Action -> 'created', 'updated', 'deleted', 'completed'
 
 def insert_log(user_id, habit_id, action):
-    return execute_query('''INSERT INTO habit_logs(user_id, habit_id, action) VALUES (?, ?, ?)''', (user_id, habit_id, action))
+    return execute_query('''INSERT INTO habit_logs(user_id, habit_id, action) VALUES (?, ?, ?)''', (user_id, habit_id, action,))
 
 # ============================= 
+
+# === Reports Filter ===
+
+def filter_report(filter, user_id, action ):
+    filter_value = f'-{filter} day'
+    return execute_query("SELECT COUNT(*) FROM habit_logs WHERE timestamp >= DATETIME('now', ?) and user_id = ? and action = ? ", (filter_value, user_id, action,), fetchone=True)
+
 
 
 def init_db():

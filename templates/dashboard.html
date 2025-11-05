@@ -16,7 +16,7 @@
     <h2>Seus Hábitos</h2>
 
     <a href="{{ url_for('habits.insert_habit') }}" class="btn btn-add-habit">+ Adicionar hábito</a>
-    <a href="{{ url_for('habits.reports') }}" class="btn btn-reports">Relatório dos Hábitos</a>
+    <a href="{{ url_for('habits.reports', filter=1) }}" class="btn btn-reports">Relatório dos Hábitos</a>
     {% if habits %}
       <ul class="habit-list">
         {% for habit in habits %}

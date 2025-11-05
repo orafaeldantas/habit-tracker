@@ -1,7 +1,7 @@
 import functools
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 from datetime import date
-from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, counter_habits_by_user, get_last_daily_reset, insert_daily_reset, insert_log
+from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, get_last_daily_reset, insert_daily_reset, insert_log, filter_report
 
 habits_bp = Blueprint('habits', __name__)
 
@@ -121,12 +121,25 @@ def delete_habit(id):
             return redirect(url_for('habits.dashboard'))
         
 # === Reports ===
-@habits_bp.route('/reports', methods=['GET'])
+@habits_bp.route('/reports/<int:filter>', methods=['GET'])
 @login_required
-def reports():
+def reports(filter):
 
-    completed = counter_habits_by_user(session['id_user'], 1)
-    pending = counter_habits_by_user(session['id_user'], 0)
+    # completed = counter_habits_by_user(session['id_user'], 1)
+    # pending = counter_habits_by_user(session['id_user'], 0)
 
-    habits = {"completed": completed[0], "pending": pending[0]}
-    return render_template('reports.html', habits=habits)
+    # habits = {"completed": completed[0], "pending": pending[0]}
+    # return render_template('reports.html', habits=habits)
+    user_id = session['id_user']
+    action = 'completed' 
+
+    if filter == 1:
+        completed_habits = filter_report(1, user_id, action)
+    elif filter == 2:
+        ...
+    elif filter == 3:
+        ...
+    else: 
+        flash('URL inválida.', 'error')
+
+    return render_template('reports.html', habits=completed_habits[0])
