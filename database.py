@@ -167,8 +167,10 @@ def filter_report(filter, user_id, action ):
 def insert_daily_log(user_id):
     total_habits = execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ?", (user_id,), fetchone=True)[0]
 
-    completed_habits = execute_query('''SELECT COUNT(*) FROM habit_logs WHERE DATE(timestamp) >= DATE('now', '-1 day') and
-                                    user_id = ? and action = 'completed' ''', (user_id,), fetchone=True)[0]
+    # completed_habits = execute_query('''SELECT COUNT(*) FROM habit_logs WHERE DATE(timestamp) >= DATE('now', '-1 day') and
+    #                                 user_id = ? and action = 'completed' ''', (user_id,), fetchone=True)[0]
+
+    completed_habits = execute_query('''SELECT COUNT(*) FROM habits WHERE user_id = ? and status = 1''', (user_id,), fetchone=True)[0]
 
     pending_habits = total_habits - completed_habits
 
