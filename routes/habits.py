@@ -128,15 +128,15 @@ def delete_habit(id):
 def reports(filter):
 
     user_id = session['id_user']
-    action = 'completed' 
+ 
 
     if filter == 1:
-        completed_habits = filter_report(7, user_id, action)
+        habits_log = filter_report(7, user_id)
     elif filter == 2:
-        ...
+        habits_log = filter_report(15, user_id)
     elif filter == 3:
-        ...
+        habits_log = filter_report(30, user_id)
     else: 
         flash('URL inválida.', 'error')
 
-    return render_template('reports.html', habits=completed_habits[0])
+    return render_template('reports.html', habits=habits_log)

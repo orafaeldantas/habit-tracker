@@ -158,9 +158,17 @@ def insert_log(user_id, habit_id, action):
 
 # === Reports Filter ===
 
-def filter_report(filter, user_id, action ):
+def filter_report(filter, user_id):
     filter_value = f'-{filter} day'
-    return execute_query("SELECT COUNT(*) FROM habit_logs WHERE timestamp >= DATETIME('now', ?) and user_id = ? and action = ? ", (filter_value, user_id, action,), fetchone=True)
+
+    data = []
+
+    data.append(execute_query("SELECT SUM(total_habits) AS new_total_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0])
+    data.append(execute_query("SELECT SUM(completed_habits) AS new_completed_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0])
+    data.append(execute_query("SELECT SUM(pending_habits) AS new_pending_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0])
+    data.append(round((data[1]/data[0])*100,2))
+
+    return data
 
 # === Daily Log ===
 

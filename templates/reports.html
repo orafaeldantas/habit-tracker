@@ -24,7 +24,11 @@
         <a href="{{ url_for('habits.reports',  filter=3) }}" class="btn btn-thirty-days">Últimos 30 dias</a>
       </div>
 
-      <h3>Hábitos Concluídos: {{ habits }}</h3>
+      <h3>Hábitos Totais: {{ habits[0] }}</h3>
+      <h3>Hábitos Concluídos: {{ habits[1] }}</h3>
+      <h3>Hábitos Pendentes: {{ habits[2] }}</h3>
+      <h3>Taxa de Conclusão: {{ habits[3] }}</h3>
+
 
     </div>
 
