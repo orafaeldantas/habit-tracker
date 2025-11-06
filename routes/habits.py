@@ -1,7 +1,7 @@
 import functools
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 from datetime import date
-from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, get_last_daily_reset, insert_daily_reset, insert_log, filter_report
+from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, get_last_daily_reset, insert_daily_reset, insert_log, filter_report, insert_daily_log
 
 habits_bp = Blueprint('habits', __name__)
 
@@ -25,10 +25,12 @@ def dashboard():
     
     today = date.today()
     last_reset = get_last_daily_reset()
-    print(today)
+    
+    
 
-    if str(today) != str(last_reset['reset_date']):
+    if last_reset and str(today) != str(last_reset['reset_date']):
         insert_daily_reset(today)
+        insert_daily_log(user_id)
         for habit in habits:
             update_status_habits_by_id(habit['id'], 0)   
         habits = get_habits_by_user(user_id)

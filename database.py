@@ -89,7 +89,7 @@ def create_daily_reset_table():
         conn.commit() 
 
 def create_daily_logs_table():
-    with get_db()as conn:
+    with get_db() as conn:
         cur = conn.cursor()
         cur.execute(''' 
             CREATE TABLE IF NOT EXISTS daily_logs (
@@ -100,8 +100,10 @@ def create_daily_logs_table():
                 completed_habits INTEGER NOT NULL,
                 pending_habits INTEGER NOT NULL,
                 completion_rate REAL NOT NULL    
-            ); 
-        ''')    
+            ) 
+        ''')
+
+        conn.commit()     
 
 def insert_db_users(name, email, password):
     return execute_query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, password,))
@@ -160,6 +162,25 @@ def filter_report(filter, user_id, action ):
     filter_value = f'-{filter} day'
     return execute_query("SELECT COUNT(*) FROM habit_logs WHERE timestamp >= DATETIME('now', ?) and user_id = ? and action = ? ", (filter_value, user_id, action,), fetchone=True)
 
+# === Daily Log ===
+
+def insert_daily_log(user_id):
+    total_habits = execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ?", (user_id,), fetchone=True)[0]
+
+    completed_habits = execute_query('''SELECT COUNT(*) FROM habit_logs WHERE DATE(timestamp) >= DATE('now', '-1 day') and
+                                    user_id = ? and action = 'completed' ''', (user_id,), fetchone=True)[0]
+
+    pending_habits = total_habits - completed_habits
+
+    completion_rate = round((completed_habits / total_habits) * 100 if total_habits > 0 else 0, 2)
+
+    
+    return execute_query('''INSERT INTO daily_logs(user_id, date, total_habits, completed_habits, pending_habits, completion_rate) 
+                          VALUES (?, DATE('now', '-1 day'), ?, ?, ?, ?)
+                         ''', (user_id, total_habits, completed_habits, pending_habits, completion_rate,), commit=True)
+
+# ============================= 
+
 
 
 def init_db():
@@ -167,4 +188,5 @@ def init_db():
     create_habits_table()
     create_habit_logs_table()
     create_daily_reset_table()
+    create_daily_logs_table()
     logging.info('Database initialized successfully!')
