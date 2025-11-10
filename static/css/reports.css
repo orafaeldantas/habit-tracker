@@ -62,3 +62,7 @@ body {
     flex-direction: row;
 }
 
+.canvas-div {
+  width: 450px;
+}
+

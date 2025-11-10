@@ -31,8 +31,12 @@
       <h3>Hábitos Pendentes: {{ habits[2] }}</h3>
       <h3>Taxa de Conclusão: {{ habits[3] }}</h3>
 
-      <div>
+      <div class="canvas-div">
         <canvas id="myChart"></canvas>
+      </div>
+
+      <div class="canvas-div">
+        <canvas id="rate"></canvas>
       </div>
 
 
@@ -41,28 +45,51 @@
 {% endblock content %}
 
 {% block scripts %}
+
   <script>
 
 
   const ctx = document.getElementById('myChart');
 
+  let total_habits = {{ habits[0]|tojson|safe }};
+  let completed_habits = {{ habits[1]|tojson|safe }};
+
   new Chart(ctx, {
-    type: 'bar',
+    type: 'doughnut',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: ['Hábitos Ativos', 'Hábitos Concluídos'],
       datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        label: '',
+        data: [total_habits, completed_habits],
         borderWidth: 1
       }]
     },
     options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
     }
+  });
+
+  const rate = document.getElementById('rate');
+  let completion_rate = {{ habits[3]|tojson|safe }};
+
+  new Chart(rate, {
+    type: 'bar',
+    data:{
+      labels: [''],
+      datasets: [{
+          label: 'Taxa de conclusão',         
+          data: [completion_rate]
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      scales: {
+        x: {
+            suggestedMin: 0,
+            suggestedMax: 100
+        },
+
+      }
+    },    
   });
 
 
