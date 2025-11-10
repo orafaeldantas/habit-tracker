@@ -48,6 +48,14 @@ body {
     background-color: #c9302c;
 }
 
+.btn-home {
+  background-color: #0f814b;
+}
+
+.btn-home:hover {
+  background-color: #096d3f;
+}
+
 .container-logout {
     display: flex;
     align-items: right;
@@ -63,6 +71,25 @@ body {
 }
 
 .canvas-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-div-active-completed-habits {
+  margin: 20px;
   width: 450px;
 }
 
+.canvas-div-rate {
+  margin: 20px;
+  width: 600px;
+}
+
+hr {
+  border: 0;
+  height: 2px;
+  background-color: #6c6c6c2e;
+  margin: 30px;
+}

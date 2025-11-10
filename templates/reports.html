@@ -14,11 +14,11 @@
     <div class="container">
 
       <div class="container-logout">
+        <a href="{{ url_for('habits.dashboard') }}" class="btn btn-home">Home</a>
         <a href="{{ url_for('auth.logout_user') }}" class="btn btn-logout">Sair</a>
       </div>
   
-      <h1>Relatórios</h1>
-      <h2>Seus Hábitos</h2>
+      <h1>Relatório</h1>
 
       <div class="container-btn">
         <a href="{{ url_for('habits.reports', filter=1) }}" class="btn btn-seven-days">Últimos 7 dias</a>
@@ -26,19 +26,23 @@
         <a href="{{ url_for('habits.reports',  filter=3) }}" class="btn btn-thirty-days">Últimos 30 dias</a>
       </div>
 
-      <h3>Hábitos Totais: {{ habits[0] }}</h3>
-      <h3>Hábitos Concluídos: {{ habits[1] }}</h3>
+      
+      <!--<h3>Hábitos Concluídos: {{ habits[1] }}</h3>
       <h3>Hábitos Pendentes: {{ habits[2] }}</h3>
-      <h3>Taxa de Conclusão: {{ habits[3] }}</h3>
+      <h3>Taxa de Conclusão: {{ habits[3] }}</h3>-->
+
+      <hr>
 
       <div class="canvas-div">
-        <canvas id="myChart"></canvas>
-      </div>
+        <h3>Hábitos Totais: {{ habits[0] }}</h3>
+        <div class="canvas-div-rate">
+          <canvas id="rate" height="80"></canvas>
+        </div>
 
-      <div class="canvas-div">
-        <canvas id="rate"></canvas>
+        <div class="canvas-div-active-completed-habits">
+          <canvas id="active-completed-habits"></canvas>
+        </div>
       </div>
-
 
     </div>
 
@@ -49,15 +53,15 @@
   <script>
 
 
-  const ctx = document.getElementById('myChart');
+  const ctx = document.getElementById('active-completed-habits');
 
-  let total_habits = {{ habits[0]|tojson|safe }};
+  let total_habits = {{ habits[2]|tojson|safe }};
   let completed_habits = {{ habits[1]|tojson|safe }};
 
   new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['Hábitos Ativos', 'Hábitos Concluídos'],
+      labels: ['Hábitos Pendentes', 'Hábitos Concluídos'],
       datasets: [{
         label: '',
         data: [total_habits, completed_habits],
@@ -76,7 +80,7 @@
     data:{
       labels: [''],
       datasets: [{
-          label: 'Taxa de conclusão',         
+          label: 'Taxa de conclusão %',         
           data: [completion_rate]
       }]
     },
