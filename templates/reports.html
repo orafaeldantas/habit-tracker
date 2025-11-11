@@ -34,13 +34,17 @@
       <hr>
 
       <div class="canvas-div">
-        <h3>Hábitos Totais: {{ habits[0] }}</h3>
+        <h3>Hábitos Totais: {{ habits['total_habits'] }}</h3>
         <div class="canvas-div-rate">
           <canvas id="rate" height="80"></canvas>
         </div>
 
         <div class="canvas-div-active-completed-habits">
           <canvas id="active-completed-habits"></canvas>
+        </div>
+
+        <div class="canvas-div-weekday">
+          <canvas id="weekday"></canvas>
         </div>
       </div>
 
@@ -55,8 +59,8 @@
 
   const ctx = document.getElementById('active-completed-habits');
 
-  let total_habits = {{ habits[2]|tojson|safe }};
-  let completed_habits = {{ habits[1]|tojson|safe }};
+  let total_habits = {{ habits['pending_habits']|tojson|safe }};
+  let completed_habits = {{ habits['completed_habits']|tojson|safe }};
 
   new Chart(ctx, {
     type: 'doughnut',
@@ -73,7 +77,7 @@
   });
 
   const rate = document.getElementById('rate');
-  let completion_rate = {{ habits[3]|tojson|safe }};
+  let completion_rate = {{ habits['completion_rate']|tojson|safe }};
 
   new Chart(rate, {
     type: 'bar',
@@ -95,6 +99,30 @@
       }
     },    
   });
+
+
+  new Chart("weekday", {
+  type: "line",
+  data: {
+    labels: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-fera', 'Sexta-feira', 'Sábado'],
+      datasets: [{
+          label: '',         
+          data: [{{ habits['Sunday']|tojson|safe }}, {{ habits['Monday']|tojson|safe }}, 
+                  {{ habits['Tuesday']|tojson|safe }}, {{ habits['Wednesday']|tojson|safe }}, 
+                  {{ habits['Thursday']|tojson|safe }}, {{ habits['Friday']|tojson|safe }}, {{ habits['Saturday']|tojson|safe }}]
+      }]
+  },
+  options: {
+    indexAxis: 'x',
+      scales: {
+        y: {
+            suggestedMin: 0,
+            suggestedMax: 100
+        },
+
+      }
+  }
+});
 
 
   </script>

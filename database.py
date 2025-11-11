@@ -163,12 +163,16 @@ def insert_log(user_id, habit_id, action):
 def filter_report(filter, user_id):
     filter_value = f'-{filter} day'
 
-    data = []
+    data = {}
 
-    data.append(execute_query("SELECT SUM(total_habits) AS new_total_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0])
-    data.append(execute_query("SELECT SUM(completed_habits) AS new_completed_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0])
-    data.append(execute_query("SELECT SUM(pending_habits) AS new_pending_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0])
-    data.append(round((data[1]/data[0])*100,2))
+    data['total_habits'] = execute_query("SELECT SUM(total_habits) AS new_total_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0]
+    data['completed_habits'] = execute_query("SELECT SUM(completed_habits) AS new_completed_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0]
+    data['pending_habits'] = execute_query("SELECT SUM(pending_habits) AS new_pending_habits FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ?", (filter_value, user_id,), fetchone=True)[0]
+    data['completion_rate'] = (round((data['completed_habits']/data['total_habits'])*100,2))
+
+    weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    for day in range(0, 7):      
+        data[weekday[day]] = execute_query("SELECT AVG(completion_rate) FROM daily_logs WHERE DATE(date) >= DATE('now', ?) and user_id = ? and weekday = ?", (filter_value, user_id, day), fetchone=True)[0]
 
     return data
 
