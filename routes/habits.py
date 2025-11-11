@@ -26,7 +26,6 @@ def dashboard():
     today = date.today()
     last_reset = get_last_daily_reset()
     
-    
 
     if last_reset and str(today) != str(last_reset['reset_date']):
         insert_daily_reset(today)

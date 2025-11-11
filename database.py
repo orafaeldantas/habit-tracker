@@ -1,4 +1,5 @@
 import sqlite3, logging
+import locale
 from flask import g, current_app
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -99,7 +100,8 @@ def create_daily_logs_table():
                 total_habits INTEGER NOT NULL,
                 completed_habits INTEGER NOT NULL,
                 pending_habits INTEGER NOT NULL,
-                completion_rate REAL NOT NULL    
+                completion_rate REAL NOT NULL, 
+                weekday TEXT NOT NULL   
             ) 
         ''')
 
@@ -173,6 +175,7 @@ def filter_report(filter, user_id):
 # === Daily Log ===
 
 def insert_daily_log(user_id):
+
     total_habits = execute_query("SELECT COUNT(*) FROM habits WHERE user_id = ?", (user_id,), fetchone=True)[0]
 
     # completed_habits = execute_query('''SELECT COUNT(*) FROM habit_logs WHERE DATE(timestamp) >= DATE('now', '-1 day') and
@@ -185,8 +188,8 @@ def insert_daily_log(user_id):
     completion_rate = round((completed_habits / total_habits) * 100 if total_habits > 0 else 0, 2)
 
     
-    return execute_query('''INSERT INTO daily_logs(user_id, date, total_habits, completed_habits, pending_habits, completion_rate) 
-                          VALUES (?, DATE('now', '-1 day'), ?, ?, ?, ?)
+    return execute_query('''INSERT INTO daily_logs(user_id, date, total_habits, completed_habits, pending_habits, completion_rate, weekday) 
+                          VALUES (?, DATE('now', '-1 day'), ?, ?, ?, ?, strftime('%w', DATE('now', '-1 day')))
                          ''', (user_id, total_habits, completed_habits, pending_habits, completion_rate,), commit=True)
 
 # ============================= 
