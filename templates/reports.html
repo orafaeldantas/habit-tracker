@@ -53,78 +53,12 @@
 {% endblock content %}
 
 {% block scripts %}
-
-  <script>
-
-
-  const ctx = document.getElementById('active-completed-habits');
-
-  let total_habits = {{ habits['pending_habits']|tojson|safe }};
-  let completed_habits = {{ habits['completed_habits']|tojson|safe }};
-
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Hábitos Pendentes', 'Hábitos Concluídos'],
-      datasets: [{
-        label: '',
-        data: [total_habits, completed_habits],
-        borderWidth: 1
-      }]
-    },
-    options: {
-    }
-  });
-
-  const rate = document.getElementById('rate');
-  let completion_rate = {{ habits['completion_rate']|tojson|safe }};
-
-  new Chart(rate, {
-    type: 'bar',
-    data:{
-      labels: [''],
-      datasets: [{
-          label: 'Taxa de conclusão %',         
-          data: [completion_rate]
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      scales: {
-        x: {
-            suggestedMin: 0,
-            suggestedMax: 100
-        },
-
-      }
-    },    
-  });
-
-
-  new Chart("weekday", {
-  type: "line",
-  data: {
-    labels: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-fera', 'Sexta-feira', 'Sábado'],
-      datasets: [{
-          label: 'Hábitos Concluídos por dia em %',         
-          data: [{{ habits['Sunday']|tojson|safe }}, {{ habits['Monday']|tojson|safe }}, 
-                  {{ habits['Tuesday']|tojson|safe }}, {{ habits['Wednesday']|tojson|safe }}, 
-                  {{ habits['Thursday']|tojson|safe }}, {{ habits['Friday']|tojson|safe }}, {{ habits['Saturday']|tojson|safe }}]
-      }]
-  },
-  options: {
-    indexAxis: 'x',
-      scales: {
-        y: {
-            suggestedMin: 0,
-            suggestedMax: 100
-        },
-
-      }
-  }
-});
-
-
+    
+  <script id="habits-data" type="application/json">
+    {{ habits|tojson }}
   </script>
+  
+  <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+
 
 {% endblock scripts %}
