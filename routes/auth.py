@@ -55,7 +55,8 @@ def login_user():
             session['email_user'] = request.form['email']
             session['id_user'] = user_data['id']
             session['name_user'] = user_data['name']
-            flash('Login feito com sucesso.', 'success')         
+            flash('Login feito com sucesso.', 'success')
+            session.permanent = True       
             return redirect(url_for('habits.dashboard'))
         else:
             flash('Usuário ou senha incorreto.', 'error')
