@@ -105,7 +105,23 @@ def create_daily_logs_table():
             ) 
         ''')
 
-        conn.commit()     
+        conn.commit() 
+
+def create_sessions_log_table():
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute(''' 
+            CREATE TABLE IF NOT EXISTS sessions_logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                status INTEGER NOT NULL,
+                event_type TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            ) 
+        ''')
+
+        conn.commit()   
 
 def insert_db_users(name, email, password):
     return execute_query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, password,))
@@ -198,7 +214,16 @@ def insert_daily_log(user_id):
 
 # ============================= 
 
+# === Log Sessions ===
 
+def insert_sessions_logs(user_id, status, event_type):
+    return execute_query('''INSERT INTO sessions_logs (user_id, status, event_type) VALUES (?, ?, ?)''', (user_id, status, event_type))
+
+def get_sessions_logs(user_id):
+    return execute_query('''SELECT status FROM sessions_logs ORDER BY last_status DESC
+                            LIMIT 1 WHERE user_id = ?''', (user_id,))
+
+# =============================
 
 def init_db():
     create_users_table()
@@ -206,4 +231,5 @@ def init_db():
     create_habit_logs_table()
     create_daily_reset_table()
     create_daily_logs_table()
+    create_sessions_log_table()
     logging.info('Database initialized successfully!')

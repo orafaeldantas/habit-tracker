@@ -1,6 +1,6 @@
-from flask import Blueprint, g, request, render_template, redirect, url_for, session, flash
+from flask import Blueprint, g, request, render_template, redirect, url_for, session, flash, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import insert_db_users, verify_login
+from database import insert_db_users, verify_login, insert_sessions_logs
 
 
 auth_bp = Blueprint('auth', __name__)
@@ -56,8 +56,11 @@ def login_user():
             session['id_user'] = user_data['id']
             session['name_user'] = user_data['name']
             flash('Login feito com sucesso.', 'success')
-            session.permanent = True       
-            return redirect(url_for('habits.dashboard'))
+            session.permanent = True
+            response = make_response(redirect(url_for('habits.dashboard')))
+            response.set_cookie('uid', str(session['id_user']), max_age=60*60*24*7, httponly=True, secure=True)  
+            insert_sessions_logs(session['id_user'], 1, 'login')
+            return response
         else:
             flash('Usuário ou senha incorreto.', 'error')
             return redirect(url_for('auth.login_user')) 
@@ -67,7 +70,10 @@ def login_user():
 # === LOGOUT ===
 @auth_bp.route('/logout', methods=['GET'] )
 def logout_user():
+    response = make_response(redirect(url_for('auth.login_user')))
+    response.delete_cookie('uid')
+    insert_sessions_logs(session['id_user'], 0, 'logout')
     session.pop('id_user', None)
-    session.clear()
+    session.clear()   
     flash('Logout feito! Já estamos com saudades. ;)', 'success')
-    return redirect(url_for('auth.login_user'))
+    return response

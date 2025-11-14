@@ -1,7 +1,7 @@
 import functools
-from flask import Blueprint, request, render_template, redirect, url_for, session, flash
+from flask import Blueprint, request, render_template, redirect, url_for, session, flash, make_response
 from datetime import date
-from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, get_last_daily_reset, insert_daily_reset, insert_log, filter_report, insert_daily_log
+from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, get_last_daily_reset, insert_daily_reset, insert_log, filter_report, insert_daily_log, insert_sessions_logs, get_sessions_logs
 
 habits_bp = Blueprint('habits', __name__)
 
@@ -9,9 +9,18 @@ habits_bp = Blueprint('habits', __name__)
 def login_required(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        get_user_by_cookie = request.cookies.get('uid')
         if 'id_user' not in session:
+            if get_user_by_cookie:
+                insert_sessions_logs(get_user_by_cookie, 0, 'expired')
+                response = make_response(redirect(url_for('auth.login_user')))
+                response.delete_cookie('uid')
+                flash ('Sessão expirada. Faça login novamente.', 'error')
+                return response
+
             flash ('É necessário estar logado para acessar a página.', 'error')
             return redirect(url_for('auth.login_user'))
+        
         return func(*args, **kwargs)
                   
     return wrapper
