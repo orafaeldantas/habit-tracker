@@ -5,7 +5,9 @@
     padding: 10px;
     font-size: 20px;
     font-weight: bold;
-    border-radius: 5px; 
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center; 
 }
 
 .flash.error {

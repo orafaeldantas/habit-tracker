@@ -5,29 +5,45 @@
 
   {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
   {% endblock %}
 
   {% block content %}
-    <div>
-      <form action="{{ url_for('auth.login_user') }}" method="post">
+    <div>  
           <div class="container">
-            <label for="email"><b>E-mail</b></label>
-            <input type="text" placeholder="Digite o e-mail" name="email" value="{{ email or '' }}" required>
-        
-            <label for="psw"><b>Senha</b></label>
-            <input type="password" placeholder="Digite a senha" name="psw" required>
-        
-            <button type="submit">Entrar</button>
-            <label>
-              <input type="checkbox" checked="checked" name="remember"> Lembrar-me
-            </label>
+            <div class="screen">
+              <div class="screen__content">
+                <form class="login" action="{{ url_for('auth.login_user') }}" method="post">
+                  <div class="login__field">
+                    <i class="login__icon fas fa-user"></i>
+                    <input type="text" class="login__input" name="email" placeholder="Nome" required>
+                  </div>
+                  <div class="login__field">
+                    <i class="login__icon fas fa-lock"></i>
+                    <input type="password" class="login__input" name="psw" placeholder="Senha" required>
+                  </div>
+                  <button class="button login__submit">
+                    <span class="button__text">Log In</span>
+                    <i class="button__icon fas fa-chevron-right"></i>
+                  </button>				
+                </form>
+                <div class="social-login">
+                  <h3>log in via</h3>
+                  <div class="social-icons">
+                    <a href="#" class="social-login__icon fab fa-instagram"></a>
+                    <a href="#" class="social-login__icon fab fa-facebook"></a>
+                    <a href="#" class="social-login__icon fab fa-twitter"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="screen__background">
+                <span class="screen__background__shape screen__background__shape4"></span>
+                <span class="screen__background__shape screen__background__shape3"></span>		
+                <span class="screen__background__shape screen__background__shape2"></span>
+                <span class="screen__background__shape screen__background__shape1"></span>
+              </div>		
+            </div>
           </div>
-        
-          <div class="container" style="background-color:#f1f1f1">
-            <button type="button" class="cancelbtn">Cancelar</button>
-            <span class="psw">Esqueceu a <a href="#">senha?</a></span>
-          </div> 
-      </form>
     </div>   
 
   {% endblock %}
