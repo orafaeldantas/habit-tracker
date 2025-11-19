@@ -1,66 +1,200 @@
-* {box-sizing: border-box}
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Raleway, sans-serif;
+}
 
 body {
+    background: linear-gradient(90deg, #E7EBEE, #CED3D9);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.screen {
+    background: linear-gradient(90deg, #ffffff, #f2f3f5);
+    position: relative;
+    height: 700px;
+    width: 360px;
+    box-shadow: 0px 0px 28px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+}
+
+.screen__content {
+    z-index: 1;
+    position: relative;
+    height: 100%;
+}
+
+.screen__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    clip-path: inset(0 0 0 0);
+}
+
+.screen__background__shape {
+    transform: rotate(45deg);
+    position: absolute;
+}
+
+/* Elementos modernizados com tons neutros */
+.screen__background__shape1 {
+    height: 520px;
+    width: 520px;
+    background: #F5F6F8;
+    top: -50px;
+    right: 120px;
+    border-radius: 0 72px 0 0;
+}
+
+.screen__background__shape2 {
+    height: 220px;
+    width: 220px;
+    background: #DDE1E6;
+    top: -172px;
+    right: 0;
+    border-radius: 32px;
+}
+
+.screen__background__shape3 {
+    height: 540px;
+    width: 190px;
+    background: linear-gradient(270deg, #D3D7DD, #C7CCD3);
+    top: -24px;
+    right: 0;
+    border-radius: 32px;
+}
+
+.screen__background__shape4 {
+    height: 400px;
+    width: 200px;
+    background: #E1E5EA;
+    top: 420px;
+    right: 50px;
+    border-radius: 60px;
+}
+
+.register {
+    width: 320px;
+    padding: 30px;
+    padding-top: 156px;
+}
+
+.register__field {
+    padding: 20px 0px;
+    position: relative;
+}
+
+.register__icon {
+    position: absolute;
+    top: 30px;
+    color: #8A8F99;
+}
+
+.register__input {
+    border: none;
+    border-bottom: 2px solid #C7CBD1;
+    background: none;
+    padding: 10px;
+    padding-left: 24px;
+    font-weight: 700;
+    width: 75%;
+    transition: .2s;
+}
+
+.register__input:active,
+.register__input:focus,
+.register__input:hover {
+    outline: none;
+    border-bottom-color: #7A8A9E;
+}
+
+.register__submit {
+    background: #ffffff;
+    font-size: 14px;
+    margin-top: 30px;
+    padding: 16px 20px;
+    border-radius: 26px;
+    border: 1px solid #C8CCD4;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: #4E5B6A;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.register__submit:hover,
+.register__submit:focus,
+.register__submit:active {
+    border-color: #7A8A9E;
+    outline: none;
+}
+
+.button__icon {
+    font-size: 24px;
+    margin-left: auto;
+    color: #7A8A9E;
+}
+
+.social-register__icon {
+    padding: 20px 10px;
+    color: #6E7A88;
+    text-decoration: none;
+    text-shadow: 0px 0px 8px rgba(80, 80, 80, 0.2);
+    transition: transform .2s;
+}
+
+.login,
+.terms {
+  color: #4E5B6A;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.terms {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
 }
 
-/* Add padding to containers */
-.container {
-  padding: 16px;
-  width: 1000px;
+.login {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-top: 17px;
+  padding-left: 30px;
 }
 
-/* Full-width input fields */
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
-
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-/* Overwrite default styles of hr */
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-/* Set a style for the submit/register button */
-.registerbtn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-  font-size: 20px;
-}
-
-.registerbtn:hover {
-  opacity:1;
-}
-
-/* Add a blue text color to links */
 a {
-  color: dodgerblue;
+	text-decoration: none
 }
 
-/* Set a grey background color and center the text of the "sign in" section */
-.signin {
-  background-color: #f1f1f1;
-  text-align: center;
+.span-register {
+	color: black;
 }
+
+.minimum-psw {
+  color: #4E5B6A;
+  margin-top: 5px;
+  font-size: 13px;
+}
+
+
+
