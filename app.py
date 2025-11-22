@@ -9,11 +9,11 @@ from routes import auth_bp, habits_bp
 
 load_dotenv()
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=1)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config["DATABASE"] = os.path.join(BASE_DIR, "habit-tracker.db")

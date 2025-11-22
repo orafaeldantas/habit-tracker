@@ -35,6 +35,63 @@
     border: 1px solid rgb(49, 49, 49);
 }
 
+/* === Navbar === */
+
+@media (min-width: 769px) {
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        padding: 12px 20px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .nav-right {
+        display: flex;
+        position: relative;
+
+    }
+  
+    .nav-right a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 26px;
+        cursor: pointer;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .nav-right {
+        display: none;
+        flex-direction: column;
+        background: #fff;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    .nav-right.open {
+        display: flex;
+    }
+
+    .nav-right a {
+        margin: 10px 0;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
+
 
 
 

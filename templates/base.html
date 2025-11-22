@@ -10,6 +10,7 @@
 
 </head>
 <body>
+
     {% block flash_messages %}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -22,8 +23,33 @@
         {% endwith %}
     {% endblock %}
 
-    
-    {% block content %}{% endblock %}
+    {% if not hide_navbar %}
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="/" class="logo">Home</a>
+            </div>
+        
+            <div class="nav-right" id="nav-menu">
+                <a href="{{ url_for('habits.dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('habits.reports', filter=1) }}">Relatórios</a>
+                <a href="{{ url_for('auth.logout_user') }}">Sair</a>
+            </div>
+        
+            <div class="hamburger" onclick="toggleMenu()">
+                ☰
+            </div>
+        </nav>
+
+        <script>
+            function toggleMenu() {               
+                const menu = document.getElementById('nav-menu');
+                menu.classList.toggle('open');      
+            }
+        </script>
+    {% endif %}
+ 
+    {% block content %}
+    {% endblock %} 
     
     {% block scripts %}
     
