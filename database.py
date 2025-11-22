@@ -2,7 +2,7 @@ import sqlite3, logging
 import locale
 from flask import g, current_app
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def get_db():
     db = getattr(g, '_database', None)
