@@ -15,12 +15,30 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                <div class="flash-container">
+                <div class="flash-container" id="flash-messages">
                     <div class="flash {{ category }}" role="alert">{{ message }}</div>
                 </div>               
                 {% endfor %}
             {% endif %}
         {% endwith %}
+
+        <script>
+            function hideFlashMessages() {
+                var flashContainer = document.getElementById('flash-messages');
+                if (flashContainer) {
+                    setTimeout(function() {
+                        flashContainer.style.opacity = '0';
+                        setTimeout(function() {
+                        flashContainer.parentNode.removeChild(flashContainer);
+                        }, 1000); // Espera 1 segundo pela transição de opacidade antes de remover
+                    }, 3000); // Inicia o processo após 3 segundos
+                }
+            }
+
+            // Executa a função quando a página carregar
+            window.onload = hideFlashMessages;
+        </script>
+
     {% endblock %}
 
     {% if not hide_navbar %}
@@ -49,10 +67,9 @@
     {% endif %}
  
     {% block content %}
-    {% endblock %} 
-    
-    {% block scripts %}
-    
+    {% endblock %}
+
+    {% block script %}
     {% endblock %}
 </body>
 </html>

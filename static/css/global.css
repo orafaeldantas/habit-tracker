@@ -39,6 +39,10 @@ a {
 	text-decoration: none
 }
 
+#flash-messages {
+    transition: opacity 1s ease-in-out;
+  }
+
 
 @media (min-width: 769px) {
     .navbar {
