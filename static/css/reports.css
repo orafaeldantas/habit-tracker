@@ -40,29 +40,6 @@ body {
     background-color: #1510a1;
 }
 
-.btn-logout {
-    background-color: #d9534f;
-}
-  
-.btn-logout:hover {
-    background-color: #c9302c;
-}
-
-.btn-home {
-  background-color: #0f814b;
-}
-
-.btn-home:hover {
-  background-color: #096d3f;
-}
-
-.container-logout {
-    display: flex;
-    align-items: right;
-    justify-content: right;
-    flex-direction: row;
-}
-
 .container-btn {
     display: flex;
     align-items: center;
@@ -97,4 +74,57 @@ hr {
   height: 2px;
   background-color: #6c6c6c2e;
   margin: 30px;
+}
+
+
+@media (max-width: 768px) {
+
+  body {
+    font-size: 16px;
+    margin-top: 20px;
+    padding: 10px;
+  }
+
+  .container {
+    width: 100%;
+    margin: 20px 0;
+    padding: 25px;
+    padding-bottom: 50px;
+    border-radius: 8px;
+  }
+
+  h1, h2 {
+    font-size: 22px;
+  }
+
+  .btn {
+    padding: 10px 14px;
+    font-size: 16px;
+    margin: 8px 4px;
+    width: 50%;
+    text-align: center;
+  }
+
+  .container-btn {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .canvas-div,
+  .canvas-div-active-completed-habits,
+  .canvas-div-rate,
+  .canvas-div-weekday {
+    width: 100%;
+    margin: 15px 0;
+  }
+
+  .canvas-div-active-completed-habits,
+  .canvas-div-rate,
+  .canvas-div-weekday {
+    max-width: 100%;
+  }
+
+  hr {
+    margin: 20px 0;
+  }
 }
