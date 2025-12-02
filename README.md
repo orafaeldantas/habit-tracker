@@ -1,5 +1,7 @@
 # Habit Tracker
 
+![Versão](https://img.shields.io/badge/Versão-Beta%20Final-blueviolet?style=for-the-badge)
+
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Flask](https://img.shields.io/badge/Flask-3.0-lightgrey)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -80,6 +82,12 @@ Nenhuma senha é armazenada em texto puro no banco de dados.
 
 ---
 
+## 📈 Estatísticas
+
+Na aba relatório do sistema se encontra as estatísticas dos hábitos por periódo definidos, como, os últimos 7, 15 ou 30 dias,
+no qual, é possóvel visualizar a taxa de conclusão dos hábitos no periódo escolhido, além de mostrar a quantidade de hábitos totais,
+e a taxa de conclusão de hábitos por dia da semana.
+
 ## 📂 Estrutura atual do projeto
 ```bash
 habit-tracker/
@@ -98,13 +106,17 @@ habit-tracker/
 │   │   ├── add_habit.css
 │   │   ├── login.css
 │   │   ├── edit_habit.css
+│   │   ├── reports.css
 │   │   └── dashboard.css
+│   └── js/
+│       └── reports.js
 ├── templates/
 │   ├── base.html
 │   ├── login.html
 │   ├── edit_habit.html
 │   ├── register.html
 │   ├── dashboard.html
+│   ├── reports.html
 │   └── add_habit.html
 └── habit-tracker.db  (ignorado no git)
 ```
@@ -118,7 +130,7 @@ habit-tracker/
 - **Sprint 3:** ![Sprint 3](https://img.shields.io/badge/Sprint%203-Concluída-brightgreen)
 - **Sprint 4:** ![Sprint 4](https://img.shields.io/badge/Sprint%204-Concluída-brightgreen)
 - **Sprint 5:** ![Sprint 5](https://img.shields.io/badge/Sprint%205-Concluída-brightgreen)
-- **Sprint 6:** ![Sprint 5](https://img.shields.io/badge/Sprint%206-Em%20Andamento-yellow)
+- **Sprint 6:** ![Sprint 6](https://img.shields.io/badge/Sprint%205-Concluída-brightgreen)
 
 ---
 
@@ -137,6 +149,13 @@ habit-tracker/
  - Criação do arquivo `habits.py` para armazenar as rotas CRUD
  - Refatoração das funções que fazem consultas no banco de dados em uma única função genérica (`database.py`)
  - Implementação de Blueprints para registrar as rotas que estão em módulos (`routes\`) 
+
+
+ ## 🧩 Sprint 6 — Relatórios e Visualização
+
+ - Implementação de relatórios
+ - Melhorias na visualização e responsividade
+ - Criação de logs diários 
 
 
 
