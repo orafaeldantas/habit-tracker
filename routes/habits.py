@@ -1,7 +1,7 @@
 import functools
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash, make_response
 from datetime import date
-from database import insert_db_habits, get_habits_by_user, update_status_habits_by_id, get_habit, update_habit_by_id, delete_habit_by_id, get_last_daily_reset, insert_daily_reset, insert_log, filter_report, insert_daily_log, insert_sessions_logs, get_sessions_logs
+import database as db
 
 habits_bp = Blueprint('habits', __name__)
 
@@ -12,7 +12,7 @@ def login_required(func):
         get_user_by_cookie = request.cookies.get('uid')
         if 'id_user' not in session:
             if get_user_by_cookie:
-                insert_sessions_logs(get_user_by_cookie, 0, 'expired')
+                db.insert_sessions_logs(get_user_by_cookie, 0, 'expired')
                 response = make_response(redirect(url_for('auth.login_user')))
                 response.delete_cookie('uid')
                 flash ('Sessão expirada. Faça login novamente.', 'error')
@@ -30,18 +30,18 @@ def login_required(func):
 def dashboard():
          
     user_id = session['id_user']
-    habits = get_habits_by_user(user_id)
+    habits = db.get_habits_by_user(user_id)
     
     today = date.today()
-    last_reset = get_last_daily_reset()
+    last_reset = db.get_last_daily_reset()
 
     
     if last_reset and str(today) != str(last_reset['reset_date']):
-        insert_daily_reset(today)
-        insert_daily_log(user_id)
+        db.insert_daily_reset(today)
+        db.insert_daily_log(user_id)
         for habit in habits:
-            update_status_habits_by_id(habit['id'], 0)   
-        habits = get_habits_by_user(user_id)
+            db.update_status_habits_by_id(habit['id'], 0)   
+        habits = db.get_habits_by_user(user_id)
         
     return render_template('dashboard.html', habits=habits)
     
@@ -60,9 +60,9 @@ def insert_habit():
             flash('O título do hábito é obrigatório.', 'error')
             return redirect(url_for('habits.insert_habit'))
 
-        if insert_db_habits(user_id, title, description):
-            habit_id = get_habits_by_user(user_id)
-            insert_log(user_id, habit_id[-1]['id'], 'created') # Add 'created' to the log when a habit is created
+        if db.insert_db_habits(user_id, title, description):
+            habit_id = db.get_habits_by_user(user_id)
+            db.insert_log(user_id, habit_id[-1]['id'], 'created') # Add 'created' to the log when a habit is created
             flash('Hábito adicionado com sucesso.', 'success')
             return redirect(url_for('habits.dashboard'))
         
@@ -78,13 +78,13 @@ def insert_habit():
 def update_status_habit(id):
     if request.method == 'POST':
 
-        habit = get_habit(id)
+        habit = db.get_habit(id)
         if habit['user_id'] != session['id_user']:
             flash('Ação não permitida.', 'error')
             return redirect(url_for('habits.dashboard'))
 
-        update_status_habits_by_id(id, request.form.get('status'))
-        insert_log(session['id_user'], id, 'completed') # Add 'completed' to the log when a habit is completed
+        db.update_status_habits_by_id(id, request.form.get('status'))
+        db.insert_log(session['id_user'], id, 'completed') # Add 'completed' to the log when a habit is completed
         return redirect(url_for('habits.dashboard'))
        
 
@@ -96,7 +96,7 @@ def edit_habit(id):
         title = request.form['title'] 
         description = request.form['description']
 
-        habit = get_habit(id)
+        habit = db.get_habit(id)
         if habit['user_id'] != session['id_user']:
             flash('Ação não permitida.', 'error')
             return redirect(url_for('habits.dashboard'))
@@ -105,15 +105,15 @@ def edit_habit(id):
             flash('O título do hábito é obrigatório.', 'error')
             return redirect(url_for('habits.edit_habit', id=habit['id']))
 
-        if update_habit_by_id(id, title, description):
-            insert_log(session['id_user'], id, 'updated') # Add 'updated' to the log when a habit is updated
+        if db.update_habit_by_id(id, title, description):
+            db.insert_log(session['id_user'], id, 'updated') # Add 'updated' to the log when a habit is updated
             flash('Hábito atualizado com sucesso.', 'success')
             return redirect(url_for('habits.dashboard'))
         else:
             flash('Não foi possível atualizar o hábito.', 'error')
             return redirect(url_for('habits.dashboard'))
     
-    habit = get_habit(id)
+    habit = db.get_habit(id)
     return render_template('edit_habit.html', habit=habit)
 
 # === Delete habit ===
@@ -122,9 +122,9 @@ def edit_habit(id):
 def delete_habit(id):
     if request.method == 'POST':
 
-        if delete_habit_by_id(id):
+        if db.delete_habit_by_id(id):
             flash('Hábito excluido com sucesso.', 'success')
-            insert_log(session['id_user'], id, 'deleted') # Add 'deleted' to the log when a habit is deleted
+            db.insert_log(session['id_user'], id, 'deleted') # Add 'deleted' to the log when a habit is deleted
             return redirect(url_for('habits.dashboard'))
         else:
             flash('Não foi possível excluir o hábito.', 'error')
@@ -139,11 +139,11 @@ def reports(filter):
  
 
     if filter == 1:
-        habits_log = filter_report(7, user_id)
+        habits_log = db.filter_report(7, user_id)
     elif filter == 2:
-        habits_log = filter_report(15, user_id)
+        habits_log = db.filter_report(15, user_id)
     elif filter == 3:
-        habits_log = filter_report(30, user_id)
+        habits_log = db.filter_report(30, user_id)
     else: 
         flash('URL inválida.', 'error')
 

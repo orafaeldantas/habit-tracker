@@ -1,5 +1,4 @@
 import sqlite3, logging
-import locale
 from flask import g, current_app
 
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
