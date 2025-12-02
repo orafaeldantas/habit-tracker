@@ -10,7 +10,7 @@ Plataforma de Controle de Hábitos e Produtividade 📊
 Este projeto tem como objetivo ajudar usuários a criarem e monitorarem hábitos, registrar o progresso diário e visualizar relatórios com gráficos e análises simples.  
 
 <p align="center">
-  <img src="docs/images/dashboard_1.png" alt="Tela inicial do Habit Tracker" width="600">
+  <img src="docs/images/Dashboard_Reports.gif" alt="Habit Tracker" width="600">
 </p>
 
 ---
